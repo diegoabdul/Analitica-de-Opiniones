@@ -1,7 +1,0 @@
-scikit-learn
-pycountry
-langdetect
-nltk
-matplotlib
-numpy
-PyQt5

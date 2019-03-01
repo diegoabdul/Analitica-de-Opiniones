@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1422b44e-76ce-434d-b683-6bbbadb1449e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Proyecto1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Proyecto1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vista/clasificador.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Vista/clasificador.ui" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/proyectoComputacion$modeloAlgoritmo.coverage" NAME="modeloAlgoritmo Coverage Results" MODIFIED="1547157041526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Modelo" />
+    <SUITE FILE_PATH="coverage/proyectoComputacion$Launcher.coverage" NAME="Launcher Coverage Results" MODIFIED="1547301755279" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Controlador" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="354">
+              <caret line="102" column="12" selection-start-line="102" selection-start-column="12" selection-end-line="102" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Utilidades/Algoritmia.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1615">
+              <caret line="95" column="58" selection-start-line="95" selection-start-column="51" selection-end-line="95" selection-end-column="58" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamiento.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1190">
+              <caret line="70" column="50" selection-start-line="70" selection-start-column="47" selection-end-line="70" selection-end-column="50" />
+              <folding>
+                <element signature="e#0#16#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaClasificador.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="561">
+              <caret line="39" column="73" selection-start-line="39" selection-start-column="66" selection-end-line="39" selection-end-column="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaPrincipal.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="41" selection-start-column="41" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>films</find>
+      <find>list</find>
+      <find>cm</find>
+      <find>estadi</find>
+      <find>entrenar</find>
+      <find>classifier</find>
+      <find>btn_guardar</find>
+      <find>modelo</find>
+      <find>rutaDirectorio</find>
+      <find>pos</find>
+      <find>print</find>
+      <find>alpha</find>
+      <find>join</find>
+      <find>center</find>
+      <find>self.lista</find>
+      <find>spa</find>
+      <find>configurarFiguraGrafico</find>
+      <find>txt</find>
+      <find>clasificador</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Vista/VistaVentanaPrincipal.py" />
+        <option value="$PROJECT_DIR$/Vista/Nuevo documento de texto.txt" />
+        <option value="$PROJECT_DIR$/Modelo/pruebas.py" />
+        <option value="$PROJECT_DIR$/Utilidades/ventanaClasificador.py" />
+        <option value="$PROJECT_DIR$/Controlador/Launcher.py" />
+        <option value="$PROJECT_DIR$/Vista/VistaVentanaEntrenamiento.py" />
+        <option value="$PROJECT_DIR$/../../IA-Practica-01/yolo-object-detection/yolo_video.py" />
+        <option value="$PROJECT_DIR$/Vista/VistaVentanaClasificador.py" />
+        <option value="$PROJECT_DIR$/Utilidades/Algoritmia.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamiento.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaPrincipal.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="width" value="698" />
+    <option name="height" value="736" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="proyectoComputacion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proyectoComputacion" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proyectoComputacion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proyectoComputacion" type="462c0819:PsiDirectoryNode" />
+              <item name="Controlador" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proyectoComputacion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proyectoComputacion" type="462c0819:PsiDirectoryNode" />
+              <item name="ModelosGuardados" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="proyectoComputacion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="proyectoComputacion" type="462c0819:PsiDirectoryNode" />
+              <item name="Vista" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="Course" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Modelo" />
+      <recent name="C:\Users\pepe\PycharmProjects\Proyecto1\Controlador" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\pepe\Documents\Proyecto Computacion I\proyectoComputacion\ModelosGuardados" />
+      <recent name="C:\Users\pepe\Documents\Proyecto Computacion I\proyectoComputacion\Vista" />
+      <recent name="C:\Users\pepe\Documents\Proyecto Computacion I\proyectoComputacion\Utilidades" />
+      <recent name="C:\Users\pepe\PycharmProjects\Proyecto1" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.Launcher">
+    <configuration name="ControladorVentanaEntrenamiento" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Proyecto1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Controlador" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamiento.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ControladorVentanaPrincipal (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Proyecto1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Controlador" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Controlador/ControladorVentanaPrincipal.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ControladorVentanaPrincipal" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Proyecto1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Controlador" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\pepe\PycharmProjects\Proyecto1\Controlador\Launcher.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Launcher" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Proyecto1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Controlador" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Controlador/Launcher.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="VistaVentanaPrincipal" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Proyecto1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Vista" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Vista/VistaVentanaPrincipal.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Launcher" />
+        <item itemvalue="Python.ControladorVentanaEntrenamiento" />
+        <item itemvalue="Python.ControladorVentanaPrincipal (1)" />
+        <item itemvalue="Python.ControladorVentanaPrincipal" />
+        <item itemvalue="Python.VistaVentanaPrincipal" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1422b44e-76ce-434d-b683-6bbbadb1449e" name="Default Changelist" comment="" />
+      <created>1547073821296</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1547073821296</updated>
+      <workItem from="1547073825363" duration="220000" />
+      <workItem from="1547074058235" duration="1105000" />
+      <workItem from="1547144656610" duration="1066000" />
+      <workItem from="1547147839100" duration="76000" />
+      <workItem from="1547148819174" duration="4125000" />
+      <workItem from="1547296787146" duration="1574000" />
+      <workItem from="1547300676254" duration="1648000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="3241000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-6" y="-6" width="1513" height="973" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22274882" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32569557" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.18149467" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.46381968" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32733223" />
+      <window_info anchor="bottom" id="Educational.CheckDetails" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32502964" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32502964" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="R Graphics" order="4" />
+      <window_info anchor="right" id="R Packages" order="5" />
+      <window_info anchor="right" id="SciView" order="6" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" weight="0.13392857" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3286385" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.1816694" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.46481177" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32733223" />
+      <window_info anchor="bottom" id="Educational.CheckDetails" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32569557" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32733223" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
+      <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="R Graphics" order="4" />
+      <window_info anchor="right" id="R Packages" order="5" />
+      <window_info anchor="right" id="SciView" order="6" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Controlador/entrenamiento.ui" />
+    <entry file="file://$PROJECT_DIR$/../.PyCharmEdu2018.3/system/python_stubs/1126077615/PyQt5/QtGui/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/Vista/Nuevo documento de texto.txt" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/sklearn/feature_extraction/text.py" />
+    <entry file="file://$PROJECT_DIR$/venv/pyvenv.cfg" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/matplotlib/backend_bases.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/matplotlib/pyplot.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/matplotlib/image.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/sklearn/model_selection/_split.py" />
+    <entry file="file://$PROJECT_DIR$/Utilidades/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Utilidades/ventanaClasificador.py" />
+    <entry file="file://$PROJECT_DIR$/Vista/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/text_classifier" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/sklearn/metrics/classification.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/sklearn/externals/joblib/numpy_pickle.py" />
+    <entry file="file://$PROJECT_DIR$/../old/Vista/VistaVentanaClasificador.py" />
+    <entry file="file://$PROJECT_DIR$/DiccionariosGuardados/pepe.dic" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/nltk/stem/snowball.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/scipy/sparse/base.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/sklearn/linear_model/logistic.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/pandas/io/parsers.py" />
+    <entry file="file://$PROJECT_DIR$/Controlador/big.csv" />
+    <entry file="file://$PROJECT_DIR$/Controlador/clasificador.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="9" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/matplotlib/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/matplotlib/axes/_axes.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/matplotlib/transforms.py" />
+    <entry file="file://$PROJECT_DIR$/Controlador/test.png" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/matplotlib/figure.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/sklearn/tree/tree.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/os.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/sklearn/utils/validation.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/shutil.py" />
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/pycountry/db.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/re.py" />
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaPrincipal.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-426">
+          <caret line="49" column="53" selection-start-line="49" selection-start-column="47" selection-end-line="49" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/langdetect/detector.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/types.py" />
+    <entry file="file://$PROJECT_DIR$/../../../../pepe3/IAmierdaCV/yolo_video.py" />
+    <entry file="file://$PROJECT_DIR$/../../IA-Practica-01/yolo-object-detection/yolo_video.py" />
+    <entry file="file://$PROJECT_DIR$/Vista/ComandoParaPasarDeUIaPY.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaEntrenamiento.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="172" column="79" lean-forward="true" selection-start-line="172" selection-start-column="79" selection-end-line="172" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/Launcher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/urllib/request.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="660" lean-forward="true" selection-start-line="660" selection-end-line="660" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/textblob/blob.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="369" selection-start-line="369" selection-end-line="369" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="102" column="12" selection-start-line="102" selection-start-column="12" selection-end-line="102" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Utilidades/Algoritmia.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1615">
+          <caret line="95" column="58" selection-start-line="95" selection-start-column="51" selection-end-line="95" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamiento.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1190">
+          <caret line="70" column="50" selection-start-line="70" selection-start-column="47" selection-end-line="70" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaPrincipal.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="41" selection-start-column="41" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaClasificador.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="39" column="73" selection-start-line="39" selection-start-column="66" selection-end-line="39" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -24,7 +24,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_clasificar.clicked.connect(self.AnalisisSentimiento)
         self.btn_clasificar.clicked.connect(self.clasificar)
         self.btn_guardar.clicked.connect(self.guardar)
-        self.listWidget_valoraciones.clicked.connect(self.opinion)
+        self.listWidget_valoraciones.doubleClicked.connect(self.opinion)
         self.checkBox_detectarIdioma.stateChanged.connect(self.habilitarOpcionesCheckBox)
         self.rutaDirectorio = ""
         self.listaDeFicheros = list()
@@ -50,7 +50,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def opinion(self):
         if self.flag==True:
-            QMessageBox.about(self, "Title", "Message")
+            self.sele = self.listWidget_valoraciones.selectedIndexes()[0]
+            QMessageBox.about(self, "Texto Seleccionado", self.listaAnalisis[self.sele.row()])
         else:
             QMessageBox.about(self, "Error", "Debe clasificar primero para ver mas información")
 
@@ -77,7 +78,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     if file.endswith('.txt'):
                         self.listaDeFicheros.append(join(rutaDirectorio,file))
                         self.listWidget_valoraciones.addItem(file)
-
 
     def rellenarModelo(self):
         """
@@ -126,7 +126,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             print("En proceso.....")
             with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".model", 'rb') as fichero:
                 modelo = pickle.load(fichero)
-                print(modelo)
+                #print(modelo)
 
             with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".target", 'rb') as fichero:
                 self.titulosGrafico = pickle.load(fichero)
@@ -207,7 +207,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.grafico.xaxis.grid(color='white')
 
         x_pos = np.arange(len(listaDatosTamaño))
-        print(listaDatosTamaño)
+        #print(listaDatosTamaño)
         self.grafico.bar(x_pos, listaDatosTamaño, color = "#58FA82")
         plt.title('Número de valoraciones')
         plt.xticks(x_pos, self.titulosGrafico)

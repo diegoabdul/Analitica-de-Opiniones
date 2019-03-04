@@ -39,7 +39,7 @@ class algoritmo:
         """
         if not detectarIdioma:
             self.idioma = idioma
-            print("Idioma introducido: " + idioma)
+            #print("Idioma introducido: " + idioma)
         self.detectarIdioma = detectarIdioma
         self.rutaDirectorio = rutaDirectorio
         self.algoritmoSeleccionado = algoritmoSeleccionado
@@ -66,9 +66,9 @@ class algoritmo:
 
         y_pred = algoritmo.predict(X_test) #hacer la predicción
 
-        print(confusion_matrix(y_test, y_pred))
-        print(classification_report(y_test, y_pred))
-        print(accuracy_score(y_test, y_pred))
+        #print(confusion_matrix(y_test, y_pred))
+        #print(classification_report(y_test, y_pred))
+        #print(accuracy_score(y_test, y_pred))
         lista = [y_test, y_pred, nombresValoraciones, algoritmo, vocabulario]
 
         return lista
@@ -86,7 +86,7 @@ class algoritmo:
         """
         if not detectarIdioma:
             self.idioma = idioma
-            print("Idioma introducido: " + idioma)
+            #print("Idioma introducido: " + idioma)
         self.detectarIdioma = detectarIdioma
         self.clasificar = True
         self.diccionario = diccionario
@@ -97,7 +97,7 @@ class algoritmo:
 
         datosPreprocesados = self.preprocesarDatos(datos)
         prediccion = modelo.predict(datosPreprocesados)
-        print(prediccion)
+        #print(prediccion)
         return prediccion
 
 
@@ -107,10 +107,10 @@ class algoritmo:
         :param datos: recibe una lista con el conjunto de textos
         """
         texto = str(join(datos[0], datos[1]))
-        print("Texto a detectar idioma: " + texto)
+        #print("Texto a detectar idioma: " + texto)
         idiomaAbreviado = (langdetect.detect(texto)) #te devuelve la abreviatura del pais con la tasa de acierto
         idioma = (pycountry.languages.get(alpha_2 = idiomaAbreviado).name).lower() #pasamos el pais abreviado en dos cifras al idioma en ingles
-        print("Idioma detectado automaticamente: " + idioma)
+        #print("Idioma detectado automaticamente: " + idioma)
         self.idioma = idioma
 
 

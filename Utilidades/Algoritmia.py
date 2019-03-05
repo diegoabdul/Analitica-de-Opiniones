@@ -110,7 +110,7 @@ class algoritmo:
         #print("Texto a detectar idioma: " + texto)
         idiomaAbreviado = (langdetect.detect(texto)) #te devuelve la abreviatura del pais con la tasa de acierto
         idioma = (pycountry.languages.get(alpha_2 = idiomaAbreviado).name).lower() #pasamos el pais abreviado en dos cifras al idioma en ingles
-        #print("Idioma detectado automaticamente: " + idioma)
+        #ISO("Idioma detectado automaticamente: " + idioma)
         self.idioma = idioma
 
 

@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from shutil import copyfile
 from textblob import TextBlob
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from py_translator import Translator
 
 
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -21,7 +21,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.btn_atras.clicked.connect(self.volverAtras)
         self.btn_directorio.clicked.connect(self.filechooser)
-        self.btn_clasificar.clicked.connect(self.AnalisisSentimiento)
         self.btn_clasificar.clicked.connect(self.clasificar)
         self.btn_guardar.clicked.connect(self.guardar)
         self.listWidget_valoraciones.doubleClicked.connect(self.opinion)
@@ -95,26 +94,14 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def AnalisisSentimiento(self):
         for i in self.listaDeFicheros:
-            f = open(i, "r")
-            #print(f.readlines())
-            #analizer = SentimentIntensityAnalyzer()
-            #sentimiento = analizer.polarity_scores(f.read())
-            #print(sentimiento)
+            f = open(i, 'r', encoding='ISO-8859-2')
             texto = f.read()
-            #analysis = TextBlob(texto)
-            #textotraducido=analysis.translate(to="english")
-            traductor = TextBlob(texto)
-            textotraducido=traductor.translate(to="en")
-            #print(textotraducido)
-            analysis = TextBlob(textotraducido.stripped)
-            #print(analysis.sentiment.polarity)
+            textotraducido = Translator().translate(texto, dest='en').text
+            analysis = TextBlob(textotraducido)
             self.prueba=analysis.sentiment.polarity
             self.imprimir = (f"TEXTO:{texto}\n ANALISIS DE SENTIMIENTO: {self.prueba}")
             self.listaAnalisis.append(self.imprimir)
-            #print(analysis.words)
             f.close()
-        #for i in self.listaAnalisis:
-            #print(i)
 
 
     def clasificar(self):
@@ -141,6 +128,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.btn_guardar.setEnabled(True)
             listaParaGrafico = self.configurarListaParaGrafico()
             self.configurarGrafico(listaParaGrafico)
+            self.AnalisisSentimiento()
             self.flag=True
         else:
             self.dialogo("No has seleccionado directorio entrada", "Debe seleccionar el directorio de las valoraciones a clasificar",

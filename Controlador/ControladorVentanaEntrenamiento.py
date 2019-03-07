@@ -18,6 +18,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         super(NewApp, self).__init__()
         self.setupUi(self)
         self.btn_atras.clicked.connect(self.volverAtras)
+        self.btn_prueba.clicked.connect(self.prueba)
         self.btn_directorio.clicked.connect(self.filechooser)
         self.btn_entrenar.clicked.connect(self.entrenamiento)
         self.btn_guardar.clicked.connect(self.guardar)
@@ -33,6 +34,9 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         lay = QtWidgets.QVBoxLayout(self.panelEstadistica)
         lay.addWidget(self.canvas)
         self.show()
+
+    def prueba(self):
+        print("ha pulsado el boton de prueba")
 
     def volverAtras(self):
         """

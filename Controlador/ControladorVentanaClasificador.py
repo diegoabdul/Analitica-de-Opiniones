@@ -99,9 +99,10 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             textotraducido = Translator().translate(texto, dest='en').text
             analysis = TextBlob(textotraducido)
             self.prueba=analysis.sentiment.polarity
-            self.imprimir = (f"TEXTO:{texto}\n ANALISIS DE SENTIMIENTO: {self.prueba}\n ANALISIS DE SENTIMIENTO *3: {self.prueba*3}")
+            self.imprimir = (f"TEXTO:{texto}\n ANALISIS DE SENTIMIENTO: {self.prueba}")
             self.listaAnalisis.append(self.imprimir)
             f.close()
+
 
     def clasificar(self):
         """

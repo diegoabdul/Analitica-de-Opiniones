@@ -103,6 +103,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.listaAnalisis.append(self.imprimir)
             f.close()
 
+    def prueba(self):
+        return'FUNCIONA ESTA VERGA'
 
     def clasificar(self):
         """

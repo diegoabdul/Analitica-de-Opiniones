@@ -1,2 +1,0 @@
-9.6;
-Que en Booking no hayan cambiado la dirección correcta del estudio.

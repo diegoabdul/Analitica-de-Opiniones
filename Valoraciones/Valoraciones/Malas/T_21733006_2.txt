@@ -1,2 +1,0 @@
-1.0
-Un servicio pesimo que utiliza la cobertura de otras lineas.

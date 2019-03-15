@@ -1,6 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
+import mysql.connector
 
+mydb = mysql.connector.connect(
+  host="vtc.hopto.org",
+  user="diego",
+  passwd="Galicia96.",
+    database="vtc"
+)
+
+mycursor = mydb.cursor()
 flag=True
 i=1
 while flag==True:
@@ -15,11 +24,18 @@ while flag==True:
         nota = lab.findAll(class_="review-score-badge", text=True)[0].text
         for lab2 in lab.find_all(class_="review_pos"):
             positivas = lab2.findAll(itemprop="reviewBody", text=True)[0].text
-            print(nota + positivas )
+            #print(nota + positivas )
+
+            sql = "INSERT INTO opinion (Nota, Texto) VALUES (%s, %s)"
+            val = (nota, positivas)
+            mycursor.execute(sql, val)
+            mydb.commit()
+            print(mycursor.rowcount, "record inserted.")
+
             contadorpos += 1
         for lab3 in lab.find_all(class_="review_neg"):
             negativas = lab3.findAll(itemprop="reviewBody", text=True)[0].text
-            print(nota + negativas)
+           # print(nota + negativas)
             contadorneg += 1
     i+=1
     if positivas == None:
@@ -27,3 +43,6 @@ while flag==True:
 
 print('TOTAL DE VALORACIONES POSITIVAS', contadorpos)
 print('TOTAL DE VALORACIONES NEGATIVAS', contadorneg)
+
+
+

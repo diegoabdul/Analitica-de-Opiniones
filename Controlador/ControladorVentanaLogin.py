@@ -2,6 +2,7 @@ from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
 
+
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)

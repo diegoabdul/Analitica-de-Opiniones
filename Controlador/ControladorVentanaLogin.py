@@ -1,5 +1,6 @@
 from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
+import Controlador.ControladorVentanaRegistro as ventanaRegistro
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
 
 

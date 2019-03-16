@@ -1,7 +1,10 @@
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtWidgets import QShortcut
+
 from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
-import Controlador.ControladorVentanaRegistro as ventanaRegistro
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
+import mysql.connector
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -9,37 +12,60 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         self.setupUi(self)
         self.btn_entrar.clicked.connect(self.entrar)
-
-
+        self.shortcut = QShortcut(QKeySequence("Return"), self)
+        self.shortcut.activated.connect(self.entrar)
 
     def entrar(self):
         """
-        Método encargado de ejecutar la ventana entrenar
+        Método encargado de ejecutar la ventana login
         """
-        print("hola")
 
-        usuario = self.textoUsuario.text()
-        contrasena = self.textoContrasena.text()
+        mydb = mysql.connector.connect(
+            host="vtc.hopto.org",
+            user="diego",
+            passwd="Galicia96.",
+            database="vtc"
+        )
 
-        print(usuario)
-        print(contrasena)
+        if  mydb.is_connected() ==True:
+            print("conectado")
 
-        adminCorrecto = "admin"
-        contrasenaAdminCorrecta = "123"
+        mycursor = mydb.cursor()
 
-        usuarioCorrecto = "usuario"
-        contrasenaUsuarioCorrecta = "123"
+        sql = ("SELECT * FROM usuario WHERE Usuario = %s ")
+        usuarioBBDD = (self.textoUsuario.text(), )
+        mycursor.execute(sql, usuarioBBDD)
+
+        myresult = mycursor.fetchall()
+
+        for x in myresult:
+            print(x)
+
+        usuarioCorrecto = x[3]
+        contrasenaCorrecta = x[4]
+        rolUsuario = x[5]
+        nombreUsuario = x[1]
 
 
-        if (usuario == adminCorrecto) and (contrasena == contrasenaAdminCorrecta):
-            self.Open = ventanaPrincipal.MainWindow()
-            self.Open.show()
-            self.cerraVentana()
 
-        if (usuario == usuarioCorrecto) and (contrasena==contrasenaUsuarioCorrecta):
-            self.Open = ventanaClasificador.NewApp()
-            self.Open.show()
-            self.cerraVentana()
+
+        if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
+
+            if (rolUsuario==0):
+                print("admin")
+                self.Open = ventanaPrincipal.MainWindow()
+                self.Open.show()
+                self.cerraVentana()
+
+            else:
+                print("no admin")
+                self.Open = ventanaClasificador.NewApp()
+                self.Open.show()
+                self.cerraVentana()
+
+        else:
+
+          print("usuario y/o contraseña incorrecto")
 
 
     def cerraVentana(self):
@@ -47,3 +73,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         Método encargado de cerrar la ventana actual
         """
         self.close()
+
+
+import ctypes  # An included library with Python install.
+
+
+def Mbox(title, text, style):
+    return ctypes.windll.user32.MessageBoxW(0, text, title, style)
+
+

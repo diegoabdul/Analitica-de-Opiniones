@@ -1,8 +1,7 @@
 from Vista.VistaVentanaPrincipal import *
 import Controlador.ControladorVentanaEntrenamiento as ventanaEntrenamiento
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
-import Controlador.ControladorVentanaRegistro as ventanaRegistro
-
+import Controlador.ControladorVentanaRegistrar as ventanaRegistrar
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
@@ -20,20 +19,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Open.show()
         self.cerraVentana()
 
-    def registrar(self):
-        """
-        Método encargado de ejecutar la ventana entrenar
-        """
-        self.Open = ventanaRegistro.NewApp()
-        self.Open.show()
-        self.cerraVentana()
-
 
     def clasificar(self):
         """
         Método encargado de ejecutar la ventana clasificar
         """
         self.Open = ventanaClasificador.NewApp()
+        self.Open.show()
+        self.cerraVentana()
+
+    def registrar(self):
+        """
+        Método encargado de ejecutar la ventana registrar
+        """
+        self.Open = ventanaRegistrar.MainWindow()
         self.Open.show()
         self.cerraVentana()
 

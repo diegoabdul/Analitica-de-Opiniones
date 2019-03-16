@@ -101,6 +101,3 @@ while flag==True:
 
 print('TOTAL DE VALORACIONES POSITIVAS', contadorpos)
 print('TOTAL DE VALORACIONES NEGATIVAS', contadorneg)
-
-
-

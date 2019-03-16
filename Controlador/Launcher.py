@@ -1,6 +1,4 @@
-from Vista.VistaVentanaPrincipal import *
 from Vista.VistaVentanaLogin import *
-import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
 import Controlador.ControladorVentanaLogin as ventanaLogin
 
 

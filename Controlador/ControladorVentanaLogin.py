@@ -1,5 +1,5 @@
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QShortcut
+from PyQt5.QtWidgets import QShortcut, QMessageBox
 
 from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
@@ -27,9 +27,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             database="vtc"
         )
 
-        if  mydb.is_connected() ==True:
-            print("conectado")
-
         mycursor = mydb.cursor()
 
         sql = ("SELECT * FROM usuario WHERE Usuario = %s ")
@@ -39,12 +36,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         myresult = mycursor.fetchall()
 
         for x in myresult:
-            print(x)
-
-        usuarioCorrecto = x[3]
-        contrasenaCorrecta = x[4]
-        rolUsuario = x[5]
-        nombreUsuario = x[1]
+            usuarioCorrecto = x[3]
+            contrasenaCorrecta = x[4]
+            rolUsuario = x[5]
+            nombreUsuario = x[1]
 
 
 
@@ -52,20 +47,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
 
             if (rolUsuario==0):
-                print("admin")
                 self.Open = ventanaPrincipal.MainWindow()
                 self.Open.show()
                 self.cerraVentana()
 
             else:
-                print("no admin")
                 self.Open = ventanaClasificador.NewApp()
                 self.Open.show()
                 self.cerraVentana()
 
         else:
+            QMessageBox.about(self, "Error", "Usuario y/o Contraseña incorrecto")
 
-          print("usuario y/o contraseña incorrecto")
 
 
     def cerraVentana(self):

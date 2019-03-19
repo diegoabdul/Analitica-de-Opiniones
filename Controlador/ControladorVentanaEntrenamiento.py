@@ -11,7 +11,6 @@ from os import listdir
 import os
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-import Controlador.ControladorVentanaWebScraper as ventanaWebScraper
 
 
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -54,9 +53,32 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Método para introducir la ruta donde se encuentran las carpetas con  las valoraciones a entrenar.
         Recorre esa ruta en búsqueda de tales archivos y genera una tab por cada carpeta con archivos que encuentre
         """
-        self.Open = ventanaWebScraper.NewApp()
-        self.Open.show()
-        self.cerraVentana()
+        rutaDirectorio = QtWidgets.QFileDialog.getExistingDirectory(self, 'Selecciona carpeta de valoraciones')
+        if rutaDirectorio:
+            self.directorio_text.setText("Directorio: "+ os.path.basename(rutaDirectorio)) #asignar al label el nombre de la carpeta, solo el nombre de la carpeta
+            self.rutaDirectorio = rutaDirectorio
+            self.valoraciones_tab.clear()
+            self.existenArchivos = False
+            for dirname, dirnames, filenames in os.walk(rutaDirectorio):
+                for subdirname in dirnames:
+                    ruta= os.path.join(dirname, subdirname)
+                    self.tab = QtWidgets.QWidget()
+                    self.tab.setObjectName((subdirname))
+                    self.valoraciones_tab.addTab(self.tab, subdirname)
+                    lista = list()
+                    for file in listdir(ruta):
+                        if isfile(join(ruta, file)):
+                            if file.endswith('.txt'):
+                                lista.append(file)
+                                self.existenArchivos = True
+
+                    if self.existenArchivos:
+                        self.gridContenedor = QtWidgets.QGridLayout(self.tab)
+                        self.listaValoraciones = QtWidgets.QListWidget(self.tab)
+                        self.listaValoraciones.addItems(lista)
+                        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+                        self.listaValoraciones.setSizePolicy(sizePolicy)
+                        self.gridContenedor.addWidget(self.listaValoraciones)
 
 
     def entrenamiento(self):

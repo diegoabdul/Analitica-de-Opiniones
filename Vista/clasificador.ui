@@ -54,6 +54,9 @@
           <item row="1" column="0">
            <widget class="QListWidget" name="listWidget_valoraciones"/>
           </item>
+          <item row="2" column="0">
+           <widget class="QListWidget" name="listWidget_valoraciones_2"/>
+          </item>
          </layout>
         </widget>
        </widget>

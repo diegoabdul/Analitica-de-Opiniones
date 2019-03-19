@@ -36,36 +36,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         usuarioBBDD = (self.textoUsuario.text(), )
         mycursor.execute(sql, usuarioBBDD)
 
+
+
+
         myresult = mycursor.fetchall()
 
-        for x in myresult:
-            print(x)
+        if (mycursor.rowcount == 0):
 
-        usuarioCorrecto = x[3]
-        contrasenaCorrecta = x[4]
-        rolUsuario = x[5]
-        nombreUsuario = x[1]
-
-
-
-
-        if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
-
-            if (rolUsuario==0):
-                print("admin")
-                self.Open = ventanaPrincipal.MainWindow()
-                self.Open.show()
-                self.cerraVentana()
-
-            else:
-                print("no admin")
-                self.Open = ventanaClasificador.NewApp()
-                self.Open.show()
-                self.cerraVentana()
-
+            self.labelIncorrectos.setText("usuario y contraseña incorrectos")
         else:
 
-          print("usuario y/o contraseña incorrecto")
+            for x in myresult:
+                print(x)
+                usuarioCorrecto = x[3]
+                contrasenaCorrecta = x[4]
+                rolUsuario = x[5]
+                nombreUsuario = x[1]
+
+            if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
+
+                if (rolUsuario==0):
+                    print("admin")
+                    self.Open = ventanaPrincipal.MainWindow()
+                    self.Open.show()
+                    self.cerraVentana()
+
+                else:
+                    print("no admin")
+                    self.Open = ventanaClasificador.NewApp()
+                    self.Open.show()
+                    self.cerraVentana()
+
+
+
+
 
 
     def cerraVentana(self):

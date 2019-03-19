@@ -61,7 +61,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.close()
 
     def filechooser(self):
-
         """
         Método para introducir la ruta con la carpeta de archivos si clasificar, y recorrer esa misma ruta en busca de textos
         """

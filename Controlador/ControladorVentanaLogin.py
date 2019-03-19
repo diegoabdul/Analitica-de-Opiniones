@@ -1,5 +1,5 @@
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QShortcut
+from PyQt5.QtWidgets import QShortcut, QMessageBox
 
 from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
@@ -27,48 +27,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             database="vtc"
         )
 
-        if  mydb.is_connected() ==True:
-            print("conectado")
-
         mycursor = mydb.cursor()
 
         sql = ("SELECT * FROM usuario WHERE Usuario = %s ")
         usuarioBBDD = (self.textoUsuario.text(), )
         mycursor.execute(sql, usuarioBBDD)
 
-
-
-
         myresult = mycursor.fetchall()
 
-        if (mycursor.rowcount == 0):
+        for x in myresult:
+            usuarioCorrecto = x[3]
+            contrasenaCorrecta = x[4]
+            rolUsuario = x[5]
+            nombreUsuario = x[1]
 
-            self.labelIncorrectos.setText("usuario y contraseña incorrectos")
+
+
+
+        if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
+
+            if (rolUsuario==0):
+                self.Open = ventanaPrincipal.MainWindow()
+                self.Open.show()
+                self.cerraVentana()
+
+            else:
+                self.Open = ventanaClasificador.NewApp()
+                self.Open.show()
+                self.cerraVentana()
+
         else:
-
-            for x in myresult:
-                print(x)
-                usuarioCorrecto = x[3]
-                contrasenaCorrecta = x[4]
-                rolUsuario = x[5]
-                nombreUsuario = x[1]
-
-            if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
-
-                if (rolUsuario==0):
-                    print("admin")
-                    self.Open = ventanaPrincipal.MainWindow()
-                    self.Open.show()
-                    self.cerraVentana()
-
-                else:
-                    print("no admin")
-                    self.Open = ventanaClasificador.NewApp()
-                    self.Open.show()
-                    self.cerraVentana()
-
-
-
+            QMessageBox.about(self, "Error", "Usuario y/o Contraseña incorrecto")
 
 
 

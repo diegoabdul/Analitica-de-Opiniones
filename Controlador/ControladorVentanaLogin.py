@@ -5,6 +5,7 @@ from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
 import mysql.connector
+import ctypes  # An included library with Python install.
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -16,9 +17,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.shortcut.activated.connect(self.entrar)
 
     def entrar(self):
-        """
-        Método encargado de ejecutar la ventana login
-        """
 
         mydb = mysql.connector.connect(
             host="vtc.hopto.org",
@@ -27,37 +25,49 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             database="vtc"
         )
 
+        if  mydb.is_connected() ==True:
+            print("conectado")
+
         mycursor = mydb.cursor()
 
         sql = ("SELECT * FROM usuario WHERE Usuario = %s ")
         usuarioBBDD = (self.textoUsuario.text(), )
         mycursor.execute(sql, usuarioBBDD)
 
+
+
+
         myresult = mycursor.fetchall()
 
-        for x in myresult:
-            usuarioCorrecto = x[3]
-            contrasenaCorrecta = x[4]
-            rolUsuario = x[5]
-            nombreUsuario = x[1]
+        if (mycursor.rowcount == 0):
 
+            self.labelIncorrectos.setText("usuario y contraseña incorrectos")
+        else:
 
+            for x in myresult:
+                print(x)
+                usuarioCorrecto = x[3]
+                contrasenaCorrecta = x[4]
+                rolUsuario = x[5]
+                nombreUsuario = x[1]
 
+            if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
 
-        if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
+                if (rolUsuario==0):
+                    print("admin")
+                    self.Open = ventanaPrincipal.MainWindow()
+                    self.Open.show()
+                    self.cerraVentana()
 
-            if (rolUsuario==0):
-                self.Open = ventanaPrincipal.MainWindow()
-                self.Open.show()
-                self.cerraVentana()
+                else:
+                    print("no admin")
+                    self.Open = ventanaClasificador.NewApp()
+                    self.Open.show()
+                    self.cerraVentana()
 
             else:
-                self.Open = ventanaClasificador.NewApp()
-                self.Open.show()
-                self.cerraVentana()
+                self.labelIncorrectos.setText("usuario y contraseña incorrectos")
 
-        else:
-            QMessageBox.about(self, "Error", "Usuario y/o Contraseña incorrecto")
 
 
 
@@ -68,10 +78,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.close()
 
 
-import ctypes  # An included library with Python install.
 
 
-def Mbox(title, text, style):
-    return ctypes.windll.user32.MessageBoxW(0, text, title, style)
+
 
 

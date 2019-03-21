@@ -166,7 +166,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Fase de clasificación"))
         self.btn_atras.setText(_translate("MainWindow", "Atrás"))
         self.btn_obtener.setText(_translate("MainWindow", "OBTENER"))
-        self.btn_guardar.setText(_translate("MainWindow", "Guardar"))
+        self.btn_guardar.setText(_translate("MainWindow", "Guardar/Borrar"))
         self.label.setText(_translate("MainWindow", "Seleccione el idioma en que desea recuperar las opiniones:"))
         self.idioma_text.setText(_translate("MainWindow", "URL: "))
         self.label_2.setText(_translate("MainWindow", "Seleccione una página para obtener opiniones:"))

@@ -1,4 +1,6 @@
 import itertools
+import os
+import sqlite3
 
 import numpy as np
 from PyQt5.QtWidgets import QInputDialog, QMessageBox
@@ -6,13 +8,20 @@ import pickle
 from sklearn.metrics import confusion_matrix, accuracy_score
 from Vista.VistaVentanaEntrenamiento import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
-from os.path import isfile, join
-from os import listdir
-import os
+from shutil import rmtree
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 import Controlador.ControladorVentanaWebScraper as ventanaWebScraper
+from os.path import isfile, join
+from os import listdir
+import mysql.connector
 
+mydb = mysql.connector.connect(
+  host="vtc.hopto.org",
+  user="diego",
+  passwd="Galicia96.",
+    database="vtc"
+)
 
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -23,7 +32,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_entrenar.clicked.connect(self.entrenamiento)
         self.btn_guardar.clicked.connect(self.guardar)
         self.checkBox_detectarIdioma.stateChanged.connect(self.habilitarOpcionesCheckBox)
-        self.rutaDirectorio = ""
         self.existenArchivos = False
         self.modeloAlgoritmo = None
         self.diccionarioEntrenamiento = None
@@ -34,6 +42,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         lay = QtWidgets.QVBoxLayout(self.panelEstadistica)
         lay.addWidget(self.canvas)
         self.show()
+        self.valoraciones(ventanaWebScraper.NewApp.flagDirectorio)
 
     def volverAtras(self):
         """
@@ -42,6 +51,38 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Open = ventanaPrincipal.MainWindow()
         self.Open.show()
         self.cerraVentana()
+
+    def valoraciones(self,flag):
+        if flag:
+            rutaDirectorio = ventanaWebScraper.NewApp.Directorio
+            if rutaDirectorio:
+                self.directorio_text.setText("Directorio: " + os.path.basename(rutaDirectorio))
+                print(rutaDirectorio)
+                self.rutaDirectorio = rutaDirectorio
+                self.valoraciones_tab.clear()
+                self.existenArchivos = False
+                for dirname, dirnames, filenames in os.walk(rutaDirectorio):
+                    for subdirname in dirnames:
+                        ruta = os.path.join(dirname, subdirname)
+                        self.tab = QtWidgets.QWidget()
+                        self.tab.setObjectName((subdirname))
+                        self.valoraciones_tab.addTab(self.tab, subdirname)
+                        lista = list()
+                        for file in listdir(ruta):
+                            if isfile(join(ruta, file)):
+                                if file.endswith('.txt'):
+                                    lista.append(file)
+                                    self.existenArchivos = True
+
+                        if self.existenArchivos:
+                            self.gridContenedor = QtWidgets.QGridLayout(self.tab)
+                            self.listaValoraciones = QtWidgets.QListWidget(self.tab)
+                            self.listaValoraciones.addItems(lista)
+                            sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred,
+                                                               QtWidgets.QSizePolicy.Preferred)
+                            self.listaValoraciones.setSizePolicy(sizePolicy)
+                            self.gridContenedor.addWidget(self.listaValoraciones)
+
 
     def cerraVentana(self):
         """
@@ -54,6 +95,9 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Método para introducir la ruta donde se encuentran las carpetas con  las valoraciones a entrenar.
         Recorre esa ruta en búsqueda de tales archivos y genera una tab por cada carpeta con archivos que encuentre
         """
+        path=os.getcwd() + '/Valoraciones'
+        if os.path.isdir(path):
+            rmtree(path)
         self.Open = ventanaWebScraper.NewApp()
         self.Open.show()
         self.cerraVentana()
@@ -64,20 +108,22 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Método para entrenar las valoraciones
         Manda y recoge lo referente al proceso entrenarDatos de la clase algoritmo
         """
-        if(self.rutaDirectorio and self.existenArchivos):
-            print("Ruta valoraciones: ", self.rutaDirectorio)
+        if(ventanaWebScraper.NewApp.flagDirectorio==True):
+            self.rutaDirectorio = ventanaWebScraper.NewApp.Directorio
             self.btn_guardar.setEnabled(True)
             from Utilidades.Algoritmia import algoritmo
             claseAlgoritmo = algoritmo()
+
             datosMatriz = claseAlgoritmo.entrenarDatos(self.rutaDirectorio,self.comboBox_algoritmo.currentText(),
                                                        self.comboBox_idioma.currentText(), self.checkBox_detectarIdioma.isChecked())
+
             self.configurarFiguraGrafico(datosMatriz)
             self.modeloAlgoritmo = datosMatriz[3]
             self.diccionarioEntrenamiento = datosMatriz[4]
 
         else:
-            self.dialogo("No has seleccionado uno o más directorios", "Debe seleccionar el directorio de las valoraciones antes de entrenar",
-                              QMessageBox.Warning)
+            self.dialogo("Error", "No has realizado el WebScraper,Debe hacerlo correctamente para continuar con el Entrenamiento del Modelo",
+                             QMessageBox.Warning)
 
 
     def guardar(self):
@@ -89,16 +135,20 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if ok:
             nombreArchivo = str(nombreArchivo)
             if nombreArchivo:
-                with open('../ModelosGuardados/' + nombreArchivo + ".model", 'wb') as archivo:
-                    pickle.dump(self.modeloAlgoritmo, archivo)
 
-                with open('../ModelosGuardados/' + nombreArchivo + ".vocabulary", 'wb') as archivo:
-                    pickle.dump(self.diccionarioEntrenamiento, archivo)
+                modelo = pickle.dumps(self.modeloAlgoritmo, pickle.HIGHEST_PROTOCOL)
+                vocabulario = pickle.dumps(self.diccionarioEntrenamiento, pickle.HIGHEST_PROTOCOL)
+                target = pickle.dumps(self.titulosGrafico, pickle.HIGHEST_PROTOCOL)
 
-                with open('../ModelosGuardados/' + nombreArchivo + ".target", 'wb') as archivo:
-                    pickle.dump(self.titulosGrafico, archivo)
+                mycursor = mydb.cursor()
+                sql = "INSERT INTO modelo (Nombre,Target, Modelo,Vocabulario) VALUES (%s,%s,%s,%s)"
+                val = (nombreArchivo,target,modelo,vocabulario)
+                mycursor.execute(sql, val)
+                mydb.commit()
+                mycursor.close()
 
                 self.dialogo("Modelo Guardado", "El entrenamiento se ha guradado satisfactoriamente.", QMessageBox.Information)
+                rmtree(os.getcwd() + '/Valoraciones')
 
             else:
                 self.dialogo("Imposible guardar", "Para guardar debe especificar un nombre para el entrenamiento.", QMessageBox.Warning)

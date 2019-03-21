@@ -45,6 +45,8 @@ class algoritmo:
         self.algoritmoSeleccionado = algoritmoSeleccionado
         datos = load_files(self.rutaDirectorio)
         X, y = datos.data, datos.target
+        #print(datos.target)
+
         nombresValoraciones = datos.target_names
         datosPreprocesados, vocabulario = self.preprocesarDatos(X)
         X_train, X_test, y_train, y_test = train_test_split(datosPreprocesados, y, test_size=0.2, random_state=0)
@@ -110,7 +112,7 @@ class algoritmo:
         #print("Texto a detectar idioma: " + texto)
         idiomaAbreviado = (langdetect.detect(texto)) #te devuelve la abreviatura del pais con la tasa de acierto
         idioma = (pycountry.languages.get(alpha_2 = idiomaAbreviado).name).lower() #pasamos el pais abreviado en dos cifras al idioma en ingles
-        #ISO("Idioma detectado automaticamente: " + idioma)
+        #print("Idioma detectado automaticamente: " + idioma)
         self.idioma = idioma
 
 

@@ -13,7 +13,14 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from shutil import copyfile
 from textblob import TextBlob
 from py_translator import Translator
+import mysql.connector
 
+mydb = mysql.connector.connect(
+  host="vtc.hopto.org",
+  user="diego",
+  passwd="Galicia96.",
+    database="vtc"
+)
 
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -83,13 +90,15 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         recorre el directorio donde se encuentran los modelos y los agrega
         al combobox
         """
-        algoritmoSeleccionado = list()
-        rutaDirectorio = "../ModelosGuardados"
-        for fichero in listdir(rutaDirectorio):
-            if isfile(join(rutaDirectorio, fichero)):
-                if fichero.endswith('.model'):
-                    algoritmoSeleccionado.append(os.path.splitext(fichero)[0])
-        self.comboBox_modelo.addItems(algoritmoSeleccionado)
+        listamodelo=list()
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT Nombre FROM modelo")
+        myresult = mycursor.fetchall()
+        for x in myresult:
+            NombreModelo = x[0]
+            listamodelo.append(NombreModelo)
+        mycursor.close()
+        self.comboBox_modelo.addItems(listamodelo)
 
     def AnalisisSentimiento(self):
         for i in self.listaDeFicheros:
@@ -102,25 +111,25 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.listaAnalisis.append(self.imprimir)
             f.close()
 
-    def prueba(self):
-        return'FUNCIONA ESTA VERGA'
-
     def clasificar(self):
         """
         Método para clasificar las valoraciones
         Manda y recoge lo referente al proceso clasificarDatos de la clase algoritmo
         """
         if(self.rutaDirectorio and self.listaDeFicheros):
-            print("En proceso.....")
-            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".model", 'rb') as fichero:
-                modelo = pickle.load(fichero)
-                #print(modelo)
+            print(self.comboBox_modelo.currentText())
+            mycursor = mydb.cursor()
+            mycursor.execute("SELECT Target,Modelo,Vocabulario FROM modelo WHERE Nombre=%s", (self.comboBox_modelo.currentText()))
+            myresult = mycursor.fetchone()
+            for x in myresult:
+                Target = x[0]
+                Modelo=x[1]
+                Vocabulario=x[2]
+            mycursor.close()
+            modelo = pickle.loads(Modelo)
+            self.titulosGrafico = pickle.loads(Target)
+            diccionario = pickle.loads(Vocabulario)
 
-            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".target", 'rb') as fichero:
-                self.titulosGrafico = pickle.load(fichero)
-
-            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".vocabulary", 'rb') as fichero:
-                diccionario = pickle.load(fichero)
 
             from Utilidades.Algoritmia import algoritmo
             claseAlgoritmo = algoritmo()

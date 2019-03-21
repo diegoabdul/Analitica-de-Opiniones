@@ -162,7 +162,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Fase de entrenamiento"))
         self.valoraciones_tab.setTabText(self.valoraciones_tab.indexOf(self.widget1), _translate("MainWindow", "Valoraciones"))
         self.btn_atras.setText(_translate("MainWindow", "Atrás"))
-        self.btn_directorio.setText(_translate("MainWindow", "Seleccionar carpeta con valoraciones"))
+        self.btn_directorio.setText(_translate("MainWindow", "Acceder a WebScraper"))
         self.directorio_text.setText(_translate("MainWindow", "Directorio:"))
         self.btn_entrenar.setText(_translate("MainWindow", "ENTRENAR"))
         self.btn_guardar.setText(_translate("MainWindow", "Guardar entrenamiento"))

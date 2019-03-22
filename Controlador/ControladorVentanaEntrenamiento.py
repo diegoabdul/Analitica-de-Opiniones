@@ -1,7 +1,4 @@
 import itertools
-import os
-import sqlite3
-
 import numpy as np
 from PyQt5.QtWidgets import QInputDialog, QMessageBox
 import pickle
@@ -15,6 +12,9 @@ import Controlador.ControladorVentanaWebScraper as ventanaWebScraper
 from os.path import isfile, join
 from os import listdir
 import mysql.connector
+import boto3
+import os
+
 
 mydb = mysql.connector.connect(
   host="vtc.hopto.org",
@@ -131,29 +131,65 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Método que solicita al usuario asignar un nombre al entrenamiento realizado, y donde con ese nombre
         guardamos el modelo, el diccionario y los titulos de cada sección
         """
+        path = '../ModelosGuardados'
+
+        try:
+            os.makedirs(path)
+        except OSError:
+            print("Creation of the directory %s failed" % path)
+
         nombreArchivo, ok = QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del modelo a guardar:')
         if ok:
-            nombreArchivo = str(nombreArchivo)
+            nombreArchivo = str(nombreArchivo.lower())
             if nombreArchivo:
 
-                modelo = pickle.dumps(self.modeloAlgoritmo, pickle.HIGHEST_PROTOCOL)
-                vocabulario = pickle.dumps(self.diccionarioEntrenamiento, pickle.HIGHEST_PROTOCOL)
-                target = pickle.dumps(self.titulosGrafico, pickle.HIGHEST_PROTOCOL)
+                with open('../ModelosGuardados/' + nombreArchivo + ".model", 'wb') as archivo:
+                    pickle.dump(self.modeloAlgoritmo, archivo)
+
+                with open('../ModelosGuardados/' + nombreArchivo + ".vocabulary", 'wb') as archivo:
+                    pickle.dump(self.diccionarioEntrenamiento, archivo)
+
+                with open('../ModelosGuardados/' + nombreArchivo + ".target", 'wb') as archivo:
+                    pickle.dump(self.titulosGrafico, archivo)
+
+                s3 = boto3.resource('s3',
+                                    aws_access_key_id='AKIAIHNNODXALBFXU2SQ',
+                                    aws_secret_access_key='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')
+
+                boto3.setup_default_session(region_name='eu-west-3')
+
+                bucketName = "modelosopinionesuem"
+                Key = "../ModelosGuardados/" + nombreArchivo + ".model"
+                outPutname = nombreArchivo + ".model"
+
+                Key2 = "../ModelosGuardados/" + nombreArchivo + ".target"
+                outPutname2 = nombreArchivo + ".target"
+
+                Key3 = "../ModelosGuardados/" + nombreArchivo + ".vocabulary"
+                outPutname3 = nombreArchivo + ".vocabulary"
+
+                s3 = boto3.client('s3',
+                                  aws_access_key_id='AKIAIHNNODXALBFXU2SQ',
+                                  aws_secret_access_key='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')
+                s3.upload_file(Key, bucketName, outPutname)
+                s3.upload_file(Key2, bucketName, outPutname2)
+                s3.upload_file(Key3, bucketName, outPutname3)
+
 
                 mycursor = mydb.cursor()
-                sql = "INSERT INTO modelo (Nombre,Target, Modelo,Vocabulario) VALUES (%s,%s,%s,%s)"
-                val = (nombreArchivo,target,modelo,vocabulario)
+                sql = "INSERT INTO modelo (Nombre) VALUES (%s)"
+                val = (nombreArchivo,)
                 mycursor.execute(sql, val)
                 mydb.commit()
                 mycursor.close()
 
+
                 self.dialogo("Modelo Guardado", "El entrenamiento se ha guradado satisfactoriamente.", QMessageBox.Information)
                 rmtree(os.getcwd() + '/Valoraciones')
+                rmtree('../ModelosGuardados')
 
             else:
                 self.dialogo("Imposible guardar", "Para guardar debe especificar un nombre para el entrenamiento.", QMessageBox.Warning)
-
-
 
     def configurarFiguraGrafico(self, datosMatriz):
         """

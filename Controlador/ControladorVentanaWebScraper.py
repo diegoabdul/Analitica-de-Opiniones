@@ -294,7 +294,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     ID_PaginaWeb = x[0]
                 mycursor.close()
                 self.borrar = ID_PaginaWeb
-
+                self.flagborrar = True
                 while (flag == True and i <= maximo_pagina2):
                     pagina = URL
                     comodin = pagina.replace('dp', 'product-reviews', 1)
@@ -374,8 +374,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         mycursor.execute(sql, val)
                         mydb.commit()
                         mycursor.close()
-
-                self.flagborrar = True
             #else:
                 #QMessageBox.about(self, "Error", "URL introducido no coincide con la página seleccionada")
         else:

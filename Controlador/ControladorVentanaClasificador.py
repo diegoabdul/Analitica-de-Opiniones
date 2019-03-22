@@ -1,6 +1,8 @@
 import errno
 import pickle
 from itertools import groupby
+
+import boto3
 import numpy as np
 from PyQt5.QtWidgets import QMessageBox
 from Vista.VistaVentanaClasificador import *
@@ -10,7 +12,7 @@ from os import listdir
 import os
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-from shutil import copyfile
+from shutil import copyfile, rmtree
 from textblob import TextBlob
 from py_translator import Translator
 import mysql.connector
@@ -117,19 +119,30 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Manda y recoge lo referente al proceso clasificarDatos de la clase algoritmo
         """
         if(self.rutaDirectorio and self.listaDeFicheros):
-            print(self.comboBox_modelo.currentText())
-            mycursor = mydb.cursor()
-            mycursor.execute("SELECT Target,Modelo,Vocabulario FROM modelo WHERE Nombre=%s", (self.comboBox_modelo.currentText()))
-            myresult = mycursor.fetchone()
-            for x in myresult:
-                Target = x[0]
-                Modelo=x[1]
-                Vocabulario=x[2]
-            mycursor.close()
-            modelo = pickle.loads(Modelo)
-            self.titulosGrafico = pickle.loads(Target)
-            diccionario = pickle.loads(Vocabulario)
+            path = '../ModelosGuardados'
 
+            try:
+                os.makedirs(path)
+            except OSError:
+                print("Creation of the directory %s failed" % path)
+
+            s3 = boto3.resource('s3',
+                                aws_access_key_id='AKIAIHNNODXALBFXU2SQ',
+                                aws_secret_access_key='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')
+
+            s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.model', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.model')
+            s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.target', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.target')
+            s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.vocabulary', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.vocabulary')
+
+
+            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".model", 'rb') as fichero:
+                modelo = pickle.load(fichero)
+
+            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".target", 'rb') as fichero:
+                self.titulosGrafico = pickle.load(fichero)
+
+            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".vocabulary", 'rb') as fichero:
+                diccionario = pickle.load(fichero)
 
             from Utilidades.Algoritmia import algoritmo
             claseAlgoritmo = algoritmo()
@@ -140,6 +153,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.configurarGrafico(listaParaGrafico)
             self.AnalisisSentimiento()
             self.flag=True
+            rmtree('../ModelosGuardados')
         else:
             self.dialogo("No has seleccionado directorio entrada", "Debe seleccionar el directorio de las valoraciones a clasificar",
                               QMessageBox.Warning)

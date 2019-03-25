@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'entrenamiento.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -53,15 +53,18 @@ class Ui_MainWindow(object):
         self.gridLayout_6 = QtWidgets.QGridLayout()
         self.gridLayout_6.setObjectName("gridLayout_6")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_6.addItem(spacerItem1, 0, 2, 3, 1)
+        self.gridLayout_6.addItem(spacerItem1, 0, 2, 4, 1)
         self.btn_directorio = QtWidgets.QPushButton(self.widget)
         self.btn_directorio.setObjectName("btn_directorio")
         self.gridLayout_6.addWidget(self.btn_directorio, 0, 1, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_6.addItem(spacerItem2, 0, 0, 3, 1)
         self.directorio_text = QtWidgets.QLabel(self.widget)
         self.directorio_text.setObjectName("directorio_text")
-        self.gridLayout_6.addWidget(self.directorio_text, 1, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.directorio_text, 2, 1, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_6.addItem(spacerItem2, 0, 0, 4, 1)
+        self.btn_entrenarSQL = QtWidgets.QPushButton(self.widget)
+        self.btn_entrenarSQL.setObjectName("btn_entrenarSQL")
+        self.gridLayout_6.addWidget(self.btn_entrenarSQL, 1, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout_6, 0, 0, 1, 1)
         self.gridLayout_3 = QtWidgets.QGridLayout()
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -100,11 +103,11 @@ class Ui_MainWindow(object):
         self.comboBox_algoritmo.addItem("")
         self.comboBox_algoritmo.addItem("")
         self.comboBox_algoritmo.addItem("")
-        self.comboBox_algoritmo.addItem("")
         self.gridLayout_5.addWidget(self.comboBox_algoritmo, 1, 1, 1, 1)
         self.comboBox_idioma = QtWidgets.QComboBox(self.widget)
         self.comboBox_idioma.setEnabled(False)
         self.comboBox_idioma.setObjectName("comboBox_idioma")
+        self.comboBox_idioma.addItem("")
         self.comboBox_idioma.addItem("")
         self.comboBox_idioma.addItem("")
         self.comboBox_idioma.addItem("")
@@ -161,8 +164,9 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Fase de entrenamiento"))
         self.valoraciones_tab.setTabText(self.valoraciones_tab.indexOf(self.widget1), _translate("MainWindow", "Valoraciones"))
         self.btn_atras.setText(_translate("MainWindow", "Atrás"))
-        self.btn_directorio.setText(_translate("MainWindow", "Acceder a WebScraper"))
+        self.btn_directorio.setText(_translate("MainWindow", "WebScraper"))
         self.directorio_text.setText(_translate("MainWindow", "Directorio:"))
+        self.btn_entrenarSQL.setText(_translate("MainWindow", "Entrenar desde Opiniones en la Base de Datos"))
         self.btn_entrenar.setText(_translate("MainWindow", "ENTRENAR"))
         self.btn_guardar.setText(_translate("MainWindow", "Guardar entrenamiento"))
         self.idioma_text.setText(_translate("MainWindow", "Idioma de valoraciones:"))
@@ -170,7 +174,6 @@ class Ui_MainWindow(object):
         self.comboBox_algoritmo.setItemText(1, _translate("MainWindow", "Random Forest"))
         self.comboBox_algoritmo.setItemText(2, _translate("MainWindow", "Regresión Logistica"))
         self.comboBox_algoritmo.setItemText(3, _translate("MainWindow", "Árbol de decisión"))
-        self.comboBox_algoritmo.setItemText(4, _translate("MainWindow", "KNN"))
         self.comboBox_idioma.setItemText(0, _translate("MainWindow", "spanish"))
         self.comboBox_idioma.setItemText(1, _translate("MainWindow", "english"))
         self.comboBox_idioma.setItemText(2, _translate("MainWindow", "french"))

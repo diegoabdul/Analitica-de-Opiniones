@@ -9,6 +9,7 @@ from shutil import rmtree
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 import Controlador.ControladorVentanaWebScraper as ventanaWebScraper
+import Controlador.ControladorVentanaEntrenamientoSQL as ventanaSQL
 from os.path import isfile, join
 from os import listdir
 import mysql.connector
@@ -43,6 +44,12 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         lay.addWidget(self.canvas)
         self.show()
         self.valoraciones(ventanaWebScraper.NewApp.flagDirectorio)
+        self.btn_entrenarSQL.clicked.connect(self.SQL)
+
+    def SQL(self):
+        self.Open = ventanaSQL.MainWindow()
+        self.Open.show()
+        self.cerraVentana()
 
     def volverAtras(self):
         """
@@ -108,7 +115,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Método para entrenar las valoraciones
         Manda y recoge lo referente al proceso entrenarDatos de la clase algoritmo
         """
-        if(ventanaWebScraper.NewApp.flagDirectorio==True):
+        if((ventanaWebScraper.NewApp.flagDirectorio==True)or(ventanaSQL.MainWindow.flagDirectorio==True)):
             self.rutaDirectorio = ventanaWebScraper.NewApp.Directorio
             self.btn_guardar.setEnabled(True)
             from Utilidades.Algoritmia import algoritmo

@@ -44,6 +44,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         lay.addWidget(self.canvas)
         self.show()
         self.valoraciones(ventanaWebScraper.NewApp.flagDirectorio)
+        self.valoraciones(ventanaSQL.MainWindow.flagDirectorio)
         self.btn_entrenarSQL.clicked.connect(self.SQL)
 
     def SQL(self):

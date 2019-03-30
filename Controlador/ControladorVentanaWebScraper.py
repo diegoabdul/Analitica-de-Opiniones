@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QInputDialog
 from Vista.VistaVentanaWebScraper import *
 import Controlador.ControladorVentanaEntrenamiento as ventanaEntrenamiento
 import threading
@@ -19,6 +19,7 @@ mydb = mysql.connector.connect(
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     flagDirectorio = False
     Directorio=os.getcwd() + '/Valoraciones'
+    flagentrar = False
     def __init__(self):
         super(NewApp, self).__init__()
         self.setupUi(self)
@@ -42,6 +43,9 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btn_atras.clicked.connect(self.volverAtras)
         self.borraropinion = list()
         self.flagborrar=False
+        self.flagsalirbucle=False
+        self.flagproyecto=True
+        self.Nombrepro=''
         self.btn_guardar.clicked.connect(self.guardar)
 
 
@@ -50,28 +54,39 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             """
             Método encargado de volver al menu principal
             """
+            self.listWidget.clear()
             self.Open = ventanaEntrenamiento.NewApp()
             self.Open.show()
             self.close()
+
         else:
             QMessageBox.about(self, "Ok", "Ya hemos empezado el proceso porfavor guarde o borre en el botón correspondiente para poder salir")
 
-    def mostrar(self,nota,positivas,contadorpos):
+    def mostrarBooking(self,nota,positivas,contadorpos):
         self.listWidget.addItem(nota +positivas)
         self.lineEdit_Buenas.setText(str(contadorpos))
 
-    def mostrar2(self,nota,negativas,contadorneg):
+    def mostrarBooking2(self,nota,negativas,contadorneg):
+        self.listWidget.addItem(nota + negativas)
+        self.lineEdit_Malas.setText(str(contadorneg))
+
+    def mostrarAmazon(self, nota, positivas, contadorpos):
+        self.listWidget.addItem(nota + positivas)
+        self.lineEdit_Buenas.setText(str(contadorpos))
+
+    def mostrarAmazon2(self, nota, negativas, contadorneg):
         self.listWidget.addItem(nota + negativas)
         self.lineEdit_Malas.setText(str(contadorneg))
 
     def iniciar(self):
-        self.listWidget.clear()
+
         hilo2 = threading.Thread(target=self.web)
         hilo2.start()
 
 
     def guardar(self):
         if self.flagborrar == True:
+            self.flagsalirbucle=True
             msgBox = QMessageBox()
             msgBox.setInformativeText("¿Desea guardar los cambios?")
             msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard)
@@ -98,6 +113,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 else:
                     print("Successfully created the directory %s" % path)
 
+                
                 mycursor = mydb.cursor()
                 mycursor.execute("SELECT Nombre FROM paginaweb WHERE ID_PaginaWeb=%s", (self.borrar,))
                 myresult = mycursor.fetchall()
@@ -152,19 +168,16 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.flagborrar=False
                 QMessageBox.about(self, "Ok", "Se ha guardado correctamente")
                 self.volverAtras()
+                self.flagproyecto=True
 
             if (ret == QMessageBox.Discard):
                 self.listWidget.clear()
                 QMessageBox.about(self, "Ok", "Espere estamos borrando toda la información")
+
                 mycursor = mydb.cursor()
-                mycursor.execute("SELECT ID_Opinion FROM opinion where ID_PaginaWeb=%s", (self.borrar,))
-                myresult = mycursor.fetchall()
-                for id in myresult:
-                    self.borraropinion = id[0]
-                    mycursor.execute("DELETE FROM opinion WHERE ID_Opinion=%s", (self.borraropinion,))
-                    mydb.commit()
-                mycursor.execute("DELETE FROM paginaweb WHERE ID_PaginaWeb=%s", (self.borrar,))
+                mycursor.execute("DELETE FROM proyecto WHERE ID_Proyecto=%s", (self.ID_Proyecto,))
                 mydb.commit()
+                mycursor.close()
                 QMessageBox.about(self, "Ok", "Eliminado Correctamente")
                 self.flagborrar = False
                 self.volverAtras()
@@ -173,116 +186,141 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             QMessageBox.about(self, "Error", "No hay nada que guardar")
 
     def web(self):
-        idioma=self.comboBox.currentText()
-        idiomareal=None
-        if idioma =='Ingles':
-            idiomareal='en'
-        else:
-            idiomareal='es'
+        flagentrar = True
+        if self.flagproyecto==True:
+            Nombrecomodin ,ok= QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
+            self.Nombrepro=str(Nombrecomodin)
+            ID_Usuario='0'
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO proyecto (Nombre,ID_Usuario) VALUES (%s, %s)"
+            val = (self.Nombrepro, ID_Usuario)
+            mycursor.execute(sql, val)
+            mydb.commit()
+            mycursor.close()
 
-        URL = self.URL.text()
-        if URL.__contains__(self.comboBox_paginas.currentText()):
-            if self.comboBox_paginas.currentText().__contains__('https://www.booking.com'):
-                mycursor = mydb.cursor()
-                flag = True
-                i = 1
-                Nombre = 'Booking'
-                ID_PaginaWeb = 0
-                ID_Opinion = 0
-                sql = "INSERT INTO paginaweb (URL, Nombre) VALUES (%s, %s)"
-                val = (URL, Nombre)
-                mycursor.execute(sql, val)
-                mydb.commit()
-                mycursor.close()
+            mycursor = mydb.cursor()
+            mycursor.execute("SELECT ID_Proyecto     FROM proyecto WHERE Nombre=%s", (self.Nombrepro,))
+            myresult = mycursor.fetchall()
+            for x in myresult:
+                proyecto = x[0]
+            mycursor.close()
+            self.ID_Proyecto=proyecto
+            self.flagproyecto=False
 
-                mycursor = mydb.cursor()
-                mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE URL=%s", (URL,))
-                myresult = mycursor.fetchall()
-                for x in myresult:
-                    ID_PaginaWeb = x[0]
-                mycursor.close()
-                self.borrar=ID_PaginaWeb
 
-                comodin=URL.replace('hotel','reviews',1)
-                PAGINA = comodin[:34] + '/hotel' + comodin[34:]
-                #print(PAGINA)
-                contador=0
-                maximo=self.comboBox_2.currentText()
-                maximo_int = int(maximo)
-                maximo_pagina = (maximo_int / 75)
-                contadorneg = 0
-                contadorpos = 0
-                self.flagborrar = True
-                while (flag == True and i<=maximo_pagina):
+        while(self.flagsalirbucle==False):
 
-                    fijo = 'customer_type=total&hp_nav=0&lang='+idiomareal+'-us&order=featuredreviews&page=' + str(i) + '&r_lang='+idiomareal+'&rows=75&soz=1&lang_click=top;cdl=es;lang_changed=1'
-                    req = requests.get(PAGINA,fijo)
-                    soup = BeautifulSoup(req.content, "lxml")
-                    #print(fijo)
-                    i += 1
 
-                    for lab in soup.find_all(class_="review_item_review"):
+            idioma=self.comboBox.currentText()
+            idiomareal=None
+            if idioma =='Ingles':
+                idiomareal='en'
+            else:
+                idiomareal='es'
 
-                        self.lineEdit_Total.setText(str(contadorpos+contadorneg))
-                        nota = lab.findAll(class_="review-score-badge", text=True)[0].text
-                        for lab2 in lab.find_all(class_="review_pos"):
-                            positivas = lab2.findAll(itemprop="reviewBody", text=True)[0].text
-                            Nombre = 'Buenas'
-                            contadorpos += 1
-                            hilo1 = threading.Thread(target=self.mostrar,args=(nota,positivas,contadorpos))
-                            hilo1.start()
-                            #print(nota + positivas)
+            URL = self.URL.text()
+            if URL.__contains__(self.comboBox_paginas.currentText()) and flagentrar==True:
+                if self.comboBox_paginas.currentText().__contains__('https://www.booking.com'):
+                    mycursor = mydb.cursor()
+                    i = 1
+                    Nombre = 'Booking'
+                    ID_PaginaWeb = 0
+                    ID_Opinion = 0
+                    sql = "INSERT INTO paginaweb (URL, Nombre,ID_Proyecto) VALUES (%s, %s,%s)"
+                    val = (URL, Nombre,self.ID_Proyecto)
+                    mycursor.execute(sql, val)
+                    mydb.commit()
+                    mycursor.close()
 
-                            mycursor = mydb.cursor()
-                            sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
-                            val = (ID_PaginaWeb, nota, positivas,Nombre)
-                            mycursor.execute(sql, val)
-                            mydb.commit()
-                            mycursor.close()
+                    mycursor = mydb.cursor()
+                    mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE URL=%s", (URL,))
+                    myresult = mycursor.fetchall()
+                    for x in myresult:
+                        ID_PaginaWeb = x[0]
+                    mycursor.close()
+                    self.borrar=ID_PaginaWeb
 
-                        for lab3 in lab.find_all(class_="review_neg"):
-                            negativas = lab3.findAll(itemprop="reviewBody", text=True)[0].text
-                            contadorneg += 1
-                            hilo3 = threading.Thread(target=self.mostrar2, args=(nota, negativas,contadorneg))
-                            hilo3.start()
-                            # print(nota + negativas)
-                            Nombre2 = 'Malas'
+                    comodin=URL.replace('hotel','reviews',1)
+                    PAGINA = comodin[:34] + '/hotel' + comodin[34:]
+                    #print(PAGINA)
+                    contador=0
+                    maximo=self.comboBox_2.currentText()
+                    maximo_int = int(maximo)
+                    maximo_pagina = (maximo_int / 75)
+                    contadorneg = 0
+                    contadorpos = 0
+                    self.flagborrar = True
+                    flagentrar = False
+                    while (i<=maximo_pagina):
 
-                            mycursor = mydb.cursor()
-                            sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
-                            val = (ID_PaginaWeb, nota, negativas,Nombre2)
-                            mycursor.execute(sql, val)
-                            mydb.commit()
-                            mycursor.close()
+                        fijo = 'customer_type=total&hp_nav=0&lang='+idiomareal+'-us&order=featuredreviews&page=' + str(i) + '&r_lang='+idiomareal+'&rows=75&soz=1&lang_click=top;cdl=es;lang_changed=1'
+                        req = requests.get(PAGINA,fijo)
+                        soup = BeautifulSoup(req.content, "lxml")
+                        #print(fijo)
+                        i += 1
 
-            if self.comboBox_paginas.currentText().__contains__('https://www.amazon.es/'):
+                        for lab in soup.find_all(class_="review_item_review"):
+
+                            self.lineEdit_Total.setText(str(contadorpos+contadorneg))
+                            nota = lab.findAll(class_="review-score-badge", text=True)[0].text
+                            for lab2 in lab.find_all(class_="review_pos"):
+                                positivas = lab2.findAll(itemprop="reviewBody", text=True)[0].text
+                                Nombre = 'Buenas'
+                                contadorpos += 1
+                                hilo1 = threading.Thread(target=self.mostrarBooking,args=(nota,positivas,contadorpos))
+                                hilo1.start()
+                                #print(nota + positivas)
+
+                                mycursor = mydb.cursor()
+                                sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
+                                val = (ID_PaginaWeb, nota, positivas,Nombre)
+                                mycursor.execute(sql, val)
+                                mydb.commit()
+                                mycursor.close()
+
+                            for lab3 in lab.find_all(class_="review_neg"):
+                                negativas = lab3.findAll(itemprop="reviewBody", text=True)[0].text
+                                contadorneg += 1
+                                hilo3 = threading.Thread(target=self.mostrarBooking2, args=(nota, negativas,contadorneg))
+                                hilo3.start()
+                                # print(nota + negativas)
+                                Nombre2 = 'Malas'
+
+                                mycursor = mydb.cursor()
+                                sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
+                                val = (ID_PaginaWeb, nota, negativas,Nombre2)
+                                mycursor.execute(sql, val)
+                                mydb.commit()
+                                mycursor.close()
+
+            if self.comboBox_paginas.currentText().__contains__('https://www.amazon.es/')and flagentrar == True:
 
                 listaopiniones = list()
                 listavaloraciones = list()
                 listaopinionesneg = list()
-                listavaloracionesneg =list()
+                listavaloracionesneg = list()
                 listafinal = list()
-                listafinal2 =list()
+                listafinal2 = list()
 
                 headers = requests.utils.default_headers()
                 headers.update(
                     {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0', })
                 contador = 0
-                maximo=self.comboBox_2.currentText()
+                maximo = self.comboBox_2.currentText()
                 maximo_int = int(maximo)
                 maximo_pagina = (maximo_int / 75)
                 i = 1
                 contadorneg = 0
                 contadorpos = 0
                 flag = True
-                maximo_pagina2=maximo_pagina*7
+                maximo_pagina2 = maximo_pagina * 7
 
                 mycursor = mydb.cursor()
                 Nombre = 'Amazon'
                 ID_PaginaWeb = 0
                 ID_Opinion = 0
-                sql = "INSERT INTO paginaweb (URL, Nombre) VALUES (%s, %s)"
-                val = (URL, Nombre)
+                sql = "INSERT INTO paginaweb (URL, Nombre,ID_Proyecto) VALUES (%s, %s,%s)"
+                val = (URL, Nombre,self.ID_Proyecto)
                 mycursor.execute(sql, val)
                 mydb.commit()
                 mycursor.close()
@@ -295,6 +333,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 mycursor.close()
                 self.borrar = ID_PaginaWeb
                 self.flagborrar = True
+                flagentrar=False
                 while (flag == True and i <= maximo_pagina2):
                     pagina = URL
                     comodin = pagina.replace('dp', 'product-reviews', 1)
@@ -306,12 +345,11 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         i)
                     PAGINA_POSITIVAS = url + fijopositivas
                     PAGINA_NEGATIVAS = url + fijonegativas
-                    #print(PAGINA_POSITIVAS)
-
+                    # print(PAGINA_POSITIVAS)
                     i += 1
                     req = requests.get(PAGINA_POSITIVAS, headers)
                     soup = BeautifulSoup(req.content, "lxml")
-
+                    self.lineEdit_Total.setText(str(contadorpos + contadorneg))
                     for lab in soup.find_all('span', {'class': 'a-size-base review-text review-text-content'}):
                         comodin2 = re.sub(
                             '\/*<span class="a-size-base review-text review-text-content" data-hook="review-body"><span class="">',
@@ -320,23 +358,24 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         comodin4 = re.sub('\/*<br\/>', '', comodin3)
                         opinionFinal = re.sub('\/*<div..*\/>', '', comodin4)
                         listaopiniones.append(opinionFinal)
-                        contadorpos+=1
+                        contadorpos += 1
                     for lab1 in soup.find_all(class_="a-icon-alt"):
                         comodin5 = re.sub('\/*<span..*">', '', str(lab1))
                         valoracionFinal = re.sub('\/*de 5 estrellas<\/span>', '', comodin5)
                         listavaloraciones.append(valoracionFinal)
 
                     for final in range(len(listaopiniones)):
-                        #print(listavaloraciones[final])
-                        #print(listaopiniones[final])
-                        hilo1 = threading.Thread(target=self.mostrar, args=( listavaloraciones[final],listaopiniones[final], contadorpos))
+                        # print(listavaloraciones[final])
+                        # print(listaopiniones[final])
+                        hilo1 = threading.Thread(target=self.mostrarAmazon,
+                                                 args=(listavaloraciones[final], listaopiniones[final], contadorpos))
                         hilo1.start()
                         Nombre3 = 'Buenas'
                         if final == None:
                             flag = False
                         mycursor = mydb.cursor()
                         sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
-                        val = (ID_PaginaWeb, listavaloraciones[final], listaopiniones[final],Nombre3)
+                        val = (ID_PaginaWeb, listavaloraciones[final], listaopiniones[final], Nombre3)
                         mycursor.execute(sql, val)
                         mydb.commit()
                         mycursor.close()
@@ -362,18 +401,20 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     for final in range(len(listaopinionesneg)):
                         # print(listavaloraciones[final])
                         # print(listaopiniones[final])
-                        hilo3 = threading.Thread(target=self.mostrar2,
-                                                 args=(listavaloracionesneg[final],listaopinionesneg[final], contadorneg))
+                        hilo3 = threading.Thread(target=self.mostrarAmazon2,
+                                                 args=(
+                                                 listavaloracionesneg[final], listaopinionesneg[final], contadorneg))
                         hilo3.start()
                         Nombre4 = 'Malas'
                         if final == None:
                             flag = False
                         mycursor = mydb.cursor()
                         sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
-                        val = (ID_PaginaWeb, listavaloracionesneg[final], listaopinionesneg[final],Nombre4)
+                        val = (ID_PaginaWeb, listavaloracionesneg[final], listaopinionesneg[final], Nombre4)
                         mycursor.execute(sql, val)
                         mydb.commit()
                         mycursor.close()
+
             #else:
                 #QMessageBox.about(self, "Error", "URL introducido no coincide con la página seleccionada")
         else:

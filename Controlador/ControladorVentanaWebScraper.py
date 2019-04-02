@@ -25,7 +25,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.comboBox_paginas.addItem('https://www.booking.com')
         self.comboBox_paginas.addItem('https://www.amazon.es/')
-        self.comboBox_paginas.addItem('no sabemos todavia')
+        self.comboBox_paginas.addItem('https://www.tripadvisor.es/')
         self.comboBox.addItem('Ingles')
         self.comboBox.addItem('Español')
         self.comboBox_2.addItem('75')
@@ -96,79 +96,84 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             if (ret == QMessageBox.Save):
 
                 path = os.getcwd() + '/Valoraciones'
+                if not os.path.isdir(path):
 
-                try:
-                    os.makedirs(path)
-                except OSError:
-                    print("Creation of the directory %s failed" % path)
-                else:
-                    print("Successfully created the directory %s" % path)
+                    try:
+                        os.makedirs(path)
+                    except OSError:
+                        print("Creation of the directory %s failed" % path)
+                    else:
+                        print("Successfully created the directory %s" % path)
 
-                path = os.getcwd() + '/Valoraciones/Buenas'
 
-                try:
-                    os.makedirs(path)
-                except OSError:
-                    print("Creation of the directory %s failed" % path)
-                else:
-                    print("Successfully created the directory %s" % path)
-
-                
-                mycursor = mydb.cursor()
-                mycursor.execute("SELECT Nombre FROM paginaweb WHERE ID_PaginaWeb=%s", (self.borrar,))
-                myresult = mycursor.fetchall()
-                for x in myresult:
-                    NombreArchivo = x[0]
-                mycursor.close()
 
                 mycursor = mydb.cursor()
-                mycursor.execute("SELECT Nota,Texto FROM opinion WHERE ID_PaginaWeb=%s and Label='Buenas'", (self.borrar,))
+                mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE ID_Proyecto=%s", (self.ID_Proyecto,))
                 myresult = mycursor.fetchall()
-                i=0
-                for x in myresult:
-                    i+=1
-                    Nota = x[0]
-                    Texto = x[1]
-                    NotaGuardar = str(Nota)
-                    f = open(path + "/"+NombreArchivo+"_"+str(i)+".txt", "w+")
-                    f.write(NotaGuardar+' '+Texto)
-                    f.close()
                 mycursor.close()
+                for ID in myresult:
+                    print(ID[0])
+                    mycursor = mydb.cursor()
+                    mycursor.execute("SELECT Nombre FROM paginaweb WHERE ID_PaginaWeb=%s", (ID[0],))
+                    myresult = mycursor.fetchall()
+                    for x in myresult:
+                        NombreArchivo = x[0]
 
+                    path = os.getcwd() + '/Valoraciones/Buenas'
+                    if not os.path.isdir(path):
+                        try:
+                            os.makedirs(path)
+                        except OSError:
+                            print("Creation of the directory %s failed" % path)
+                        else:
+                            print("Successfully created the directory %s" % path)
+                    mycursor.close()
+                    mycursor = mydb.cursor()
+                    mycursor.execute("SELECT Nota,Texto FROM opinion WHERE ID_PaginaWeb=%s and Label='Buenas'", (ID[0],))
+                    myresult = mycursor.fetchall()
+                    i=0
+                    for x in myresult:
+                        i+=1
+                        Nota = x[0]
+                        Texto = x[1]
+                        NotaGuardar = str(Nota)
+                        f = open(path + "/"+NombreArchivo+"_"+str(i)+".txt", "w+")
+                        f.write(NotaGuardar+' '+Texto)
+                        f.close()
+                    mycursor.close()
+                    path = os.getcwd() + '/Valoraciones/Malas'
+                    if not os.path.isdir(path):
+                        try:
+                            os.makedirs(path)
+                        except OSError:
+                            print("Creation of the directory %s failed" % path)
+                        else:
+                            print("Successfully created the directory %s" % path)
+                    mycursor = mydb.cursor()
+                    mycursor.execute("SELECT Nombre FROM paginaweb WHERE ID_PaginaWeb=%s", (ID[0],))
+                    myresult = mycursor.fetchall()
+                    for x in myresult:
+                        NombreArchivoMalas = x[0]
+                    mycursor.close()
 
-                path = os.getcwd() + '/Valoraciones/Malas'
+                    mycursor = mydb.cursor()
+                    mycursor.execute("SELECT Nota,Texto FROM opinion WHERE ID_PaginaWeb=%s and Label='Malas'", (ID[0],))
+                    myresult = mycursor.fetchall()
+                    for x in myresult:
+                        i += 1
+                        Nota2 = x[0]
+                        Texto2 = x[1]
+                        NotaGuardar2 = str(Nota2)
+                        f = open(path + "/" + NombreArchivoMalas + "_" + str(i) + ".txt", "w+")
+                        f.write(NotaGuardar2 + ' ' + Texto2)
+                        f.close()
+                    mycursor.close()
 
-                try:
-                    os.makedirs(path)
-                except OSError:
-                    print("Creation of the directory %s failed" % path)
-                else:
-                    print("Successfully created the directory %s" % path)
-
-                mycursor = mydb.cursor()
-                mycursor.execute("SELECT Nombre FROM paginaweb WHERE ID_PaginaWeb=%s", (self.borrar,))
-                myresult = mycursor.fetchall()
-                for x in myresult:
-                    NombreArchivoMalas = x[0]
-                mycursor.close()
-
-                mycursor = mydb.cursor()
-                mycursor.execute("SELECT Nota,Texto FROM opinion WHERE ID_PaginaWeb=%s and Label='Malas'", (self.borrar,))
-                myresult = mycursor.fetchall()
-                for x in myresult:
-                    i += 1
-                    Nota2 = x[0]
-                    Texto2 = x[1]
-                    NotaGuardar2 = str(Nota2)
-                    f = open(path + "/" + NombreArchivoMalas + "_" + str(i) + ".txt", "w+")
-                    f.write(NotaGuardar2 + ' ' + Texto2)
-                    f.close()
-                mycursor.close()
-                NewApp.flagDirectorio=True
-                self.flagborrar=False
-                QMessageBox.about(self, "Ok", "Se ha guardado correctamente")
-                self.volverAtras()
-                self.flagproyecto=True
+            NewApp.flagDirectorio=True
+            self.flagborrar=False
+            QMessageBox.about(self, "Ok", "Se ha guardado correctamente")
+            self.volverAtras()
+            self.flagproyecto=True
 
             if (ret == QMessageBox.Discard):
                 self.listWidget.clear()
@@ -415,8 +420,11 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         mydb.commit()
                         mycursor.close()
 
+            if self.comboBox_paginas.currentText().__contains__('https://www.tripadvisor.es/') and flagentrar == True:
+
+                print('esperando a diego')
+
+
             #else:
-                #QMessageBox.about(self, "Error", "URL introducido no coincide con la página seleccionada")
-        else:
-            print('URL incorrecta')
+             #   print('URL incorrecta')
 

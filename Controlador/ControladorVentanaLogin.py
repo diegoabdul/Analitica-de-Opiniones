@@ -1,3 +1,5 @@
+import hashlib
+
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut, QMessageBox
 
@@ -5,8 +7,8 @@ from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
 import mysql.connector
-import ctypes  # An included library with Python install.
-
+from Crypto.Cipher import AES
+import base64
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
@@ -16,6 +18,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.shortcut = QShortcut(QKeySequence("Return"), self)
         self.shortcut.activated.connect(self.entrar)
 
+
     def entrar(self):
 
         mydb = mysql.connector.connect(
@@ -24,6 +27,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             passwd="Galicia96.",
             database="vtc"
         )
+
+        cipher = AES.new(secret_key, AES.MODE_ECB)  # never use ECB in strong systems obviously
+
+
+
 
         mycursor = mydb.cursor()
 
@@ -47,7 +55,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 rolUsuario = x[5]
                 nombreUsuario = x[1]
 
-            if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == contrasenaCorrecta):
+            if (self.textoUsuario.text() == usuarioCorrecto) and (self.textoContrasena.text() == (cipher.decrypt(baes64.b64decode(contrasenaCorrecta)))):
 
                 if (rolUsuario==0):
                     self.Open = ventanaPrincipal.MainWindow()

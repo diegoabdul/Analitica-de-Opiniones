@@ -1,5 +1,7 @@
 import errno
 import pickle
+import re
+import threading
 from itertools import groupby
 
 import boto3
@@ -16,6 +18,8 @@ from shutil import copyfile, rmtree
 from textblob import TextBlob
 from py_translator import Translator
 import mysql.connector
+import Controlador.ControladorVentanaWebScraperClasificador as ventanaWebScraper
+import Controlador.ControladorVentanaClasificadorSQL as ventanaSQL
 
 mydb = mysql.connector.connect(
   host="vtc.hopto.org",
@@ -46,7 +50,25 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         lay.addWidget(self.canvas)
         self.rellenarModelo()
         self.show()
+        self.btn_webscraper.clicked.connect(self.web)
+        self.filechooser(ventanaWebScraper.NewApp.flagDirectorio)
+        self.filechooser(ventanaSQL.MainWindow.flagDirectorio)
         self.flag=False
+        self.btn_directorio.clicked.connect(self.SQL)
+        self.flagHilo=True
+
+    def SQL(self):
+        self.Open = ventanaSQL.MainWindow()
+        self.Open.show()
+        self.cerraVentana()
+
+    def web(self):
+        path = os.getcwd() + '/Valoraciones'
+        if os.path.isdir(path):
+            rmtree(path)
+        self.Open = ventanaWebScraper.NewApp()
+        self.Open.show()
+        self.cerraVentana()
 
     def volverAtras(self):
         """
@@ -61,7 +83,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.sele = self.listWidget_valoraciones.selectedIndexes()[0]
             QMessageBox.about(self, "Texto Seleccionado", self.listaAnalisis[self.sele.row()])
         else:
-            QMessageBox.about(self, "Error", "Debe clasificar primero para ver mas información")
+            QMessageBox.about(self, "Error", "Debe clasificar primero para ver mas información -- Espere --")
 
     def cerraVentana(self):
         """
@@ -69,22 +91,23 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         """
         self.close()
 
-    def filechooser(self):
+    def filechooser(self,flag):
         """
         Método para introducir la ruta con la carpeta de archivos si clasificar, y recorrer esa misma ruta en busca de textos
         """
-        rutaDirectorio = QtWidgets.QFileDialog.getExistingDirectory(self, 'Selecciona carpeta de valoraciones')
-        if rutaDirectorio:
-            self.textosValorar_text.setText("Directorio: "+ os.path.basename(rutaDirectorio))
-            self.rutaDirectorio = rutaDirectorio
-            self.listaDeFicheros.clear()
-            self.listWidget_valoraciones.clear()
+        if flag:
+            rutaDirectorio = ventanaWebScraper.NewApp.Directorio
+            if rutaDirectorio:
+                self.textosValorar_text.setText("Directorio: "+ os.path.basename(rutaDirectorio))
+                self.rutaDirectorio = rutaDirectorio
+                self.listaDeFicheros.clear()
+                self.listWidget_valoraciones.clear()
 
-            for file in listdir(rutaDirectorio):
-                if isfile(join(rutaDirectorio, file)):
-                    if file.endswith('.txt'):
-                        self.listaDeFicheros.append(join(rutaDirectorio,file))
-                        self.listWidget_valoraciones.addItem(file)
+                for file in listdir(rutaDirectorio):
+                    if isfile(join(rutaDirectorio, file)):
+                        if file.endswith('.txt'):
+                            self.listaDeFicheros.append(join(rutaDirectorio,file))
+                            self.listWidget_valoraciones.addItem(file)
 
     def rellenarModelo(self):
         """
@@ -104,59 +127,81 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def AnalisisSentimiento(self):
         for i in self.listaDeFicheros:
+            patron = re.compile('(?<=_)[^\]]+(?=.txt)')
+            s = patron.findall(str(i))
             f = open(i, 'r', encoding='ISO-8859-2')
             texto = f.read()
-            textotraducido = Translator().translate(texto, dest='en').text
+            textotraducido = Translator().translate(str(texto), dest='en').text
             analysis = TextBlob(textotraducido)
             self.prueba=analysis.sentiment.polarity
             self.imprimir = (f"TEXTO:{texto}\n ANALISIS DE SENTIMIENTO: {self.prueba}")
             self.listaAnalisis.append(self.imprimir)
             f.close()
+            mycursor = mydb.cursor()
+            sql = "UPDATE unlabeled SET Sentimiento = %s WHERE ID_Unlabeled = %s"
+            val = (str(self.prueba), str(s[0]))
+            mycursor.execute(sql, val)
+            mydb.commit()
+        self.flag = True
+        self.btn_guardar.setEnabled(True)
+        self.flagHilo=True
+
+    def hiloSentimiento(self):
+        self.AnalisisSentimiento()
 
     def clasificar(self):
         """
         Método para clasificar las valoraciones
         Manda y recoge lo referente al proceso clasificarDatos de la clase algoritmo
         """
-        if(self.rutaDirectorio and self.listaDeFicheros):
-            path = '../ModelosGuardados'
+        if self.flagHilo==True:
+            hilo1 = threading.Thread(target=self.hiloSentimiento)
+            hilo1.start()
+            self.flagHilo=False
+            if ((ventanaWebScraper.NewApp.flagDirectorio == True)or(ventanaSQL.MainWindow.flagDirectorio==True)):
+                self.rutaDirectorio = ventanaWebScraper.NewApp.Directorio
+                path = '../ModelosGuardados'
 
-            try:
-                os.makedirs(path)
-            except OSError:
-                print("Creation of the directory %s failed" % path)
+                try:
+                    os.makedirs(path)
+                except OSError:
+                    print("Creation of the directory %s failed" % path)
 
-            s3 = boto3.resource('s3',
-                                aws_access_key_id='AKIAIHNNODXALBFXU2SQ',
-                                aws_secret_access_key='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')
+                s3 = boto3.resource('s3',
+                                    aws_access_key_id='AKIAIHNNODXALBFXU2SQ',
+                                    aws_secret_access_key='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')
 
-            s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.model', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.model')
-            s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.target', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.target')
-            s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.vocabulary', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.vocabulary')
+                s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.model', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.model')
+                s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.target', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.target')
+                s3.Bucket('modelosopinionesuem').download_file(self.comboBox_modelo.currentText()+'.vocabulary', '../ModelosGuardados/'+self.comboBox_modelo.currentText()+'.vocabulary')
 
 
-            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".model", 'rb') as fichero:
-                modelo = pickle.load(fichero)
+                with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".model", 'rb') as fichero:
+                    modelo = pickle.load(fichero)
 
-            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".target", 'rb') as fichero:
-                self.titulosGrafico = pickle.load(fichero)
+                with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".target", 'rb') as fichero:
+                    self.titulosGrafico = pickle.load(fichero)
 
-            with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".vocabulary", 'rb') as fichero:
-                diccionario = pickle.load(fichero)
+                with open('../ModelosGuardados/'+self.comboBox_modelo.currentText()+".vocabulary", 'rb') as fichero:
+                    diccionario = pickle.load(fichero)
 
-            from Utilidades.Algoritmia import algoritmo
-            claseAlgoritmo = algoritmo()
-            self.prediccion = claseAlgoritmo.clasificarDatos(self.listaDeFicheros, modelo, diccionario,
-                                                             self.comboBox_idioma.currentText(), self.checkBox_detectarIdioma.isChecked())
-            self.btn_guardar.setEnabled(True)
-            listaParaGrafico = self.configurarListaParaGrafico()
-            self.configurarGrafico(listaParaGrafico)
-            self.AnalisisSentimiento()
-            self.flag=True
-            rmtree('../ModelosGuardados')
+                from Utilidades.Algoritmia import algoritmo
+                claseAlgoritmo = algoritmo()
+                self.prediccion = claseAlgoritmo.clasificarDatos(self.listaDeFicheros, modelo, diccionario,
+                                                                 self.comboBox_idioma.currentText(), self.checkBox_detectarIdioma.isChecked())
+                listaParaGrafico = self.configurarListaParaGrafico()
+                self.configurarGrafico(listaParaGrafico)
+
+
+                rmtree('../ModelosGuardados')
+
+            else:
+                self.dialogo("No has seleccionado directorio entrada", "Debe seleccionar el directorio de las valoraciones a clasificar",
+                                  QMessageBox.Warning)
         else:
-            self.dialogo("No has seleccionado directorio entrada", "Debe seleccionar el directorio de las valoraciones a clasificar",
-                              QMessageBox.Warning)
+            self.dialogo("Error",
+                         "Debe esperar que se termine el análisis de sentimiento para volver a intentar",
+                         QMessageBox.Warning)
 
 
     def configurarListaParaGrafico(self):
@@ -177,7 +222,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         """
         Método encargado de guardar los textos ya clasificados en la carpeta seleccionada por el usuario
         """
-        rutaDirectorioGuardar = QtWidgets.QFileDialog.getExistingDirectory(self, 'Selecciona carpeta de valoraciones')
+        path = os.getcwd() + '/Clasificado'
+        rutaDirectorioGuardar = path
         if rutaDirectorioGuardar: #comprobamos que el usuario ha introducido una ruta para guardar
             if(len(self.listaDeFicheros) == len(self.prediccion)): #comprobamos que efectivamente la longitud de la lista de ficheros es igual al de la predicción
                 for indice, datosEntrenamiento in enumerate(self.prediccion):
@@ -185,6 +231,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     contador = 0
                     while(not encontrado and len(self.titulosGrafico) > contador):
                         rutaDestino = rutaDirectorioGuardar + "/" + self.titulosGrafico[contador]
+
                         if not os.path.exists(rutaDestino):
                             try:
                                 os.makedirs(rutaDestino)
@@ -197,10 +244,18 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             rutaDestino = join(rutaDestino, archivo)
                             copyfile(rutaOrigen, rutaDestino)
                             encontrado = True
-
+                            patron = re.compile('(?<=_)[^\]]+(?=.txt)')
+                            s = patron.findall(str(self.listaDeFicheros[indice]))
+                            mycursor = mydb.cursor()
+                            sql = "UPDATE unlabeled SET LabelAsignado = %s WHERE ID_Unlabeled = %s"
+                            val = (str(self.titulosGrafico[contador]),str(s[0]))
+                            mycursor.execute(sql,val)
+                            mydb.commit()
                         contador += 1
 
                 self.dialogo("Guardado con éxito", "Se guardo con éxito las clasificaciones", QMessageBox.Information)
+                rmtree(os.getcwd() + '/UNLABELED')
+                rmtree(os.getcwd() + '/Clasificado')
             else:
                 self.dialogo("Error desconocido", "Debe seleccionar la ruta de salida", QMessageBox.Warning)
         else:

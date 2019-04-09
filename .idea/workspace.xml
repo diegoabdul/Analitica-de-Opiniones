@@ -2,11 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1422b44e-76ce-434d-b683-6bbbadb1449e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Proyecto1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Proyecto1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controlador/ControladorVentanaClasificadorSQL.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Vista/VistaVentanaClasificadorSQL.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamientoSQL.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamientoSQL.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controlador/ControladorVentanaLogin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controlador/ControladorVentanaLogin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controlador/ControladorVentanaRegistrar.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controlador/ControladorVentanaRegistrar.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vista/VistaVentanaClasificador.py" beforeDir="false" afterPath="$PROJECT_DIR$/Vista/VistaVentanaClasificador.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vista/VistaVentanaEntrenamientoSQL.py" beforeDir="false" afterPath="$PROJECT_DIR$/Vista/VistaVentanaEntrenamientoSQL.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vista/VistaVentanaWebScraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/Vista/VistaVentanaWebScraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vista/clasificador.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Vista/clasificador.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Vista/webScraper.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Vista/webScraper.ui" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,8 +33,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamiento.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-424">
-              <caret line="107" column="24" selection-start-line="107" selection-start-column="24" selection-end-line="107" selection-end-column="24" />
+            <state relative-caret-position="429">
+              <caret line="195" column="16" selection-start-line="195" selection-start-column="16" selection-end-line="195" selection-end-column="53" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
               </folding>
@@ -34,61 +42,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="195" column="35" selection-start-line="195" selection-start-column="28" selection-end-line="195" selection-end-column="35" />
+            <state relative-caret-position="255">
+              <caret line="157" column="12" selection-start-line="157" selection-start-column="12" selection-end-line="157" selection-end-column="12" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamientoSQL.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1581">
-              <caret line="111" column="18" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#48#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaLogin.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaRegistrar.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="39" column="33" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1256">
-              <caret line="166" column="64" selection-start-line="166" selection-start-column="46" selection-end-line="166" selection-end-column="64" />
-              <folding>
-                <element signature="e#0#53#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -106,36 +66,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>btn|</find>
-      <find>mydb.com</find>
-      <find>btn</find>
-      <find>nota</find>
-      <find>URL</find>
-      <find>contador</find>
-      <find>mostrar2</find>
-      <find>war</find>
-      <find>flagdirectorio</find>
-      <find>print</find>
-      <find>dialogo</find>
-      <find>valoraciones</find>
-      <find>webscraper</find>
-      <find>ventanaWebScraper.NewApp.Directorio</find>
-      <find>sqlite</find>
-      <find>guardar</find>
+      <find>anteriores</find>
       <find>hilo</find>
-      <find>SV</find>
-      <find>insert</find>
-      <find>flagDi</find>
-      <find>btn_guardar</find>
-      <find>flagborrar</find>
-      <find>flag</find>
-      <find>flagentrar</find>
-      <find>total</find>
-      <find>ID_Proyecto</find>
-      <find>mostrar</find>
-      <find>ID_Proyecto||</find>
-      <find>ID_Proyect</find>
+      <find>debe clasi</find>
+      <find>valoracion</find>
+      <find>prin</find>
+      <find>amazon</find>
+      <find>mostrarbooking</find>
+      <find>hilo1</find>
+      <find>print</find>
+      <find>btn</find>
       <find>path</find>
+      <find>flag</find>
+      <find>ID_Proyecto</find>
+      <find>valoraciones</find>
+      <find>btn_guardar</find>
+      <find>clasificad|</find>
+      <find>hilo2</find>
+      <find>mostrarBooking</find>
+      <find>hilo20</find>
+      <find>label</find>
+      <find>label_7</find>
+      <find>label_OK</find>
+      <find>progress</find>
+      <find>hil</find>
+      <find>lineEdit</find>
+      <find>gc.collect(</find>
+      <find>SQL</find>
+      <find>directorio</find>
+      <find>proyecto</find>
+      <find>proyecto|</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -148,7 +108,6 @@
         <option value="$PROJECT_DIR$/Modelo/pruebas.py" />
         <option value="$PROJECT_DIR$/Utilidades/ventanaClasificador.py" />
         <option value="$USER_HOME$/IA-Practica-01/yolo-object-detection/yolo_video.py" />
-        <option value="$PROJECT_DIR$/Vista/VistaVentanaClasificador.py" />
         <option value="$PROJECT_DIR$/template/index.html" />
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/Controlador/web.py" />
@@ -163,19 +122,26 @@
         <option value="$PROJECT_DIR$/Controlador/ControladorVentanaRegistro.py" />
         <option value="$PROJECT_DIR$/Vista/VistaVentanaLogin.py" />
         <option value="$PROJECT_DIR$/Controlador/Launcher.py" />
-        <option value="$PROJECT_DIR$/Vista/VistaVentanaWebScraper.py" />
-        <option value="$PROJECT_DIR$/amazon.py" />
         <option value="$PROJECT_DIR$/Utilidades/Algoritmia.py" />
         <option value="$PROJECT_DIR$/proyecto.py" />
         <option value="$USER_HOME$/Desktop/Diego/Algoritmia.py" />
         <option value="$PROJECT_DIR$/aws.py" />
         <option value="$PROJECT_DIR$/awsdownload.py" />
-        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py" />
-        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamientoSQL.py" />
         <option value="$PROJECT_DIR$/Vista/VistaVentanaEntrenamiento.py" />
-        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamiento.py" />
-        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py" />
         <option value="$PROJECT_DIR$/Controlador/ControladorVentanaLogin.py" />
+        <option value="$PROJECT_DIR$/Vista/VistaVentanaEntrenamientoSQL.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaRegistrar.py" />
+        <option value="$PROJECT_DIR$/tripadvisor.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamientoSQL.py" />
+        <option value="$PROJECT_DIR$/Vista/VistaVentanaWebScraper.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamiento.py" />
+        <option value="$PROJECT_DIR$/Vista/VistaVentanaClasificadorSQL.py" />
+        <option value="$PROJECT_DIR$/Vista/VistaVentanaClasificador.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaClasificadorSQL.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraperClasificador.py" />
+        <option value="$PROJECT_DIR$/amazon.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py" />
       </list>
     </option>
   </component>
@@ -212,21 +178,23 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Diego/prueba" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Diego/proyectoComputacionII-master" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\diego\Documents\proyectoComputacionII\Vista" />
+      <recent name="C:\Users\diego\Documents\proyectoComputacionII\Controlador" />
+      <recent name="$PROJECT_DIR$/Modelo" />
+      <recent name="C:\Users\pepe\PycharmProjects\Proyecto1\Controlador" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\diego\Documents\proyectoComputacionII\Utilidades" />
       <recent name="C:\Users\diego\Documents\proyectoComputacionII\web" />
       <recent name="C:\Users\diego\Documents\proyectoComputacionII\static" />
       <recent name="C:\Users\diego\Documents\proyectoComputacionII\web\static" />
       <recent name="C:\Users\diego\Documents\proyectoComputacionII\Controlador" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Modelo" />
-      <recent name="C:\Users\pepe\PycharmProjects\Proyecto1\Controlador" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -264,6 +232,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="TripAdvisor" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Proyecto1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TripAdvisor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="VistaVentanaEntrenamientoSQL" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Proyecto1" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -285,7 +274,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="aws" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="amazon" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Proyecto1" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -297,7 +286,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aws.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/amazon.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -306,7 +295,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="awsdownload" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="tripadvisor" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Proyecto1" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -318,29 +307,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/awsdownload.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="proyecto" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Proyecto1" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proyecto.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tripadvisor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -351,18 +318,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.Launcher" />
-      <item itemvalue="Python.proyecto" />
-      <item itemvalue="Python.aws" />
-      <item itemvalue="Python.awsdownload" />
       <item itemvalue="Python.VistaVentanaEntrenamientoSQL" />
+      <item itemvalue="Python.tripadvisor" />
+      <item itemvalue="Python.TripAdvisor" />
+      <item itemvalue="Python.amazon" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.Launcher" />
+        <item itemvalue="Python.amazon" />
+        <item itemvalue="Python.TripAdvisor" />
+        <item itemvalue="Python.tripadvisor" />
         <item itemvalue="Python.VistaVentanaEntrenamientoSQL" />
-        <item itemvalue="Python.awsdownload" />
-        <item itemvalue="Python.aws" />
-        <item itemvalue="Python.proyecto" />
       </list>
     </recent_temporary>
   </component>
@@ -392,13 +359,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="973" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24983074" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32569557" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.17912218" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49966148" visible="true" weight="0.25622776" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.28588375" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -409,7 +377,7 @@
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32502964" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="13" sideWeight="0.5003385" side_tool="true" weight="0.1767497" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -463,45 +431,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/re.py" />
-    <entry file="file://$PROJECT_DIR$/../env/Lib/site-packages/langdetect/detector.py" />
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/types.py" />
-    <entry file="file://C:/pepe3/IAmierdaCV/yolo_video.py" />
-    <entry file="file://$USER_HOME$/IA-Practica-01/yolo-object-detection/yolo_video.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/urllib/request.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="660" lean-forward="true" selection-start-line="660" selection-end-line="660" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/textblob/blob.py" />
-    <entry file="file://$PROJECT_DIR$/template/index.html" />
-    <entry file="file://$PROJECT_DIR$/Utilidades/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Controlador/web.py" />
-    <entry file="file://$PROJECT_DIR$/Controlador/templates/index.html" />
-    <entry file="file://$PROJECT_DIR$/static/CSS/signup.css" />
-    <entry file="file://$PROJECT_DIR$/web/web.py" />
-    <entry file="file://$PROJECT_DIR$/web/templates/index.html" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/flask/app.py" />
-    <entry file="file://$PROJECT_DIR$/web.py" />
-    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaRegistro.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-80">
-          <caret line="10" column="28" lean-forward="true" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaRegistro.py" />
-    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaPrincipal.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="103" lean-forward="true" selection-start-line="103" selection-end-line="103" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -523,16 +452,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Vista/VistaWebScraper.py" />
-    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaClasificador.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#201#243#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaLogin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="81">
@@ -550,18 +469,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/amazon.py" />
     <entry file="file://$PROJECT_DIR$/Valoraciones/Buenas/buenas_1.txt" />
     <entry file="file://$PROJECT_DIR$/Controlador/Valoraciones/Buenas/Booking_2.txt" />
     <entry file="file://$PROJECT_DIR$/proyecto.py" />
     <entry file="file://$PROJECT_DIR$/Controlador/Valoraciones/Buenas/Booking_1.txt" />
-    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaWebScraper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="168" column="73" selection-start-line="168" selection-start-column="73" selection-end-line="168" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/Diego/Algoritmia.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/botocore/auth.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -572,30 +483,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/prueba.py" />
     <entry file="file://$PROJECT_DIR$/si.py" />
-    <entry file="file://$PROJECT_DIR$/Utilidades/Algoritmia.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="51" column="81" selection-start-line="51" selection-start-column="80" selection-end-line="51" selection-end-column="81" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/aws.py" />
     <entry file="file://$PROJECT_DIR$/awsdownload.py" />
     <entry file="file://$PROJECT_DIR$/Controlador/clasificador.csv" />
     <entry file="file://$PROJECT_DIR$/VistaVentanaWebScraper.py" />
-    <entry file="file://$PROJECT_DIR$/Vista/ComandoParaPasarDeUIaPY.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaEntrenamientoSQL.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Controlador/Launcher.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -613,30 +504,154 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaRegistro.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="35" column="28" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaEntrenamientoSQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="81" column="74" selection-start-line="81" selection-start-column="74" selection-end-line="81" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaRegistrar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="39" column="33" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="33" />
+        <state relative-caret-position="556">
+          <caret line="58" column="26" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="26" />
           <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/encodings/cp1252.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TripAdvisor.py" />
+    <entry file="file://$PROJECT_DIR$/Vista/ComandoParaPasarDeUIaPY.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaWebScraperClasificador.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Amazon_2.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Amazon_6.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Amazon_15.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Booking_16.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Booking_28.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Booking_1.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Booking_4.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Booking_9.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Booking_14.txt" />
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaLogin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Booking_2.txt" />
+    <entry file="file://$PROJECT_DIR$/Utilidades/Algoritmia.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="113" column="84" selection-start-line="110" selection-start-column="7" selection-end-line="113" selection-end-column="84" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VistaVentanaClasificador.py" />
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaClasificadorSQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="83" column="73" lean-forward="true" selection-start-line="83" selection-start-column="73" selection-end-line="83" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaClasificador.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="175" column="118" selection-start-line="175" selection-start-column="118" selection-end-line="175" selection-end-column="118" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamientoSQL.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1581">
-          <caret line="111" column="18" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="18" />
+        <state relative-caret-position="1955">
+          <caret line="115" column="26" selection-start-line="112" selection-start-column="8" selection-end-line="115" selection-end-column="26" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaClasificadorSQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="49" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Tripadvisor_5277.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/amazon.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="40" column="290" selection-start-line="40" selection-start-column="290" selection-end-line="40" selection-end-column="290" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaWebScraper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="181" selection-start-line="181" selection-end-line="181" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraperClasificador.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="344" column="40" selection-start-line="344" selection-start-column="40" selection-end-line="344" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="661">
+          <caret line="143" column="21" selection-start-line="143" selection-start-column="21" selection-end-line="143" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaEntrenamiento.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-424">
-          <caret line="107" column="24" selection-start-line="107" selection-start-column="24" selection-end-line="107" selection-end-column="24" />
+        <state relative-caret-position="429">
+          <caret line="195" column="16" selection-start-line="195" selection-start-column="16" selection-end-line="195" selection-end-column="53" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
           </folding>
@@ -645,30 +660,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="195" column="35" selection-start-line="195" selection-start-column="28" selection-end-line="195" selection-end-column="35" />
+        <state relative-caret-position="255">
+          <caret line="157" column="12" selection-start-line="157" selection-start-column="12" selection-end-line="157" selection-end-column="12" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1256">
-          <caret line="166" column="64" selection-start-line="166" selection-start-column="46" selection-end-line="166" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaLogin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>

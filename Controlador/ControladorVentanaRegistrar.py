@@ -1,5 +1,7 @@
+import hashlib
+
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QShortcut
+from PyQt5.QtWidgets import QShortcut, QMessageBox
 
 from Vista.VistaVentanaRegistro import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
@@ -11,18 +13,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         self.setupUi(self)
         self.btn_registrar.clicked.connect(self.prueba)
-        #self.shortcut = QShortcut(QKeySequence("Return"), self)
-        #self.shortcut.activated.connect(self.entrar)
+        self.btn_atras.clicked.connect(self.volverAtras)
+
+    def encriptarContrasena(self, contrasena):
+        codificiacionContrasena = hashlib.md5()
+        codificiacionContrasena.update(contrasena.encode('utf-8'))
+        return codificiacionContrasena.hexdigest()
+
+    def volverAtras(self):
+        """
+        Método encargado de volver al menu principal
+        """
+        self.Open = ventanaPrincipal.MainWindow()
+        self.Open.show()
+        self.cerraVentana()
 
     def prueba(self):
 
-        nombre = self.plainTextEdit_Nombre.toPlainText()
-        apellidos = self.plainTextEdit_Apellidos.toPlainText()
-        usuario = self.plainTextEdit_Usuario.toPlainText()
-        contrasena = self.plainTextEdit_Contrasena.toPlainText()
-        rol = 1
-
-
+        nombre = self.lineEdit_nombre.text()
+        apellidos = self.lineEdit_apellidos.text()
+        usuario = self.lineEdit_usuario.text()
+        contrasena = self.lineEdit_contrasena.text()
+        rolcomodin = self.comboBox.currentText()
+        if rolcomodin=="Cliente":
+            rol=1
+        else:
+            rol=0
 
 
         mydb = mysql.connector.connect(
@@ -32,18 +48,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             database="vtc"
         )
 
-        if mydb.is_connected() == True:
-            print("conectado")
-
         mycursor = mydb.cursor()
         sql = "INSERT INTO usuario (Nombre,Apellidos,Usuario,Clave,Rol) VALUES (%s,%s,%s,%s,%s)"
-        val = (nombre, contrasena,usuario,apellidos,rol)
+        val = (nombre, apellidos,usuario,self.encriptarContrasena(contrasena),rol)
         mycursor.execute(sql, val)
         mydb.commit()
         mycursor.close()
 
-        print("el usuario ha sido añadido con exito")
-
+        QMessageBox.about(self, "Ok", "Se ha añadido el usuario correctamente")
+        self.volverAtras()
 
 
     def cerraVentana(self):

@@ -2,14 +2,11 @@
 
 # Form implementation generated from reading ui file 'clasificador.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QMessageBox
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -42,7 +39,7 @@ class Ui_MainWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.listWidget_valoraciones = QtWidgets.QListWidget(self.widget1)
         self.listWidget_valoraciones.setObjectName("listWidget_valoraciones")
-        self.gridLayout.addWidget(self.listWidget_valoraciones, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.listWidget_valoraciones, 1, 0, 1, 1)
         self.textosValorar_tab.addTab(self.widget1, "")
         self.gridLayout_13.addWidget(self.textosValorar_tab, 0, 0, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout_13, 3, 0, 1, 1)
@@ -62,15 +59,18 @@ class Ui_MainWindow(object):
         self.gridLayout_6 = QtWidgets.QGridLayout()
         self.gridLayout_6.setObjectName("gridLayout_6")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_6.addItem(spacerItem1, 0, 2, 3, 1)
-        self.btn_directorio = QtWidgets.QPushButton(self.widget)
-        self.btn_directorio.setObjectName("btn_directorio")
-        self.gridLayout_6.addWidget(self.btn_directorio, 0, 1, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_6.addItem(spacerItem2, 0, 0, 3, 1)
+        self.gridLayout_6.addItem(spacerItem1, 1, 0, 4, 1)
         self.textosValorar_text = QtWidgets.QLabel(self.widget)
         self.textosValorar_text.setObjectName("textosValorar_text")
-        self.gridLayout_6.addWidget(self.textosValorar_text, 1, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.textosValorar_text, 3, 1, 1, 1)
+        self.btn_webscraper = QtWidgets.QPushButton(self.widget)
+        self.btn_webscraper.setObjectName("btn_webscraper")
+        self.gridLayout_6.addWidget(self.btn_webscraper, 0, 1, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_6.addItem(spacerItem2, 1, 2, 4, 1)
+        self.btn_directorio = QtWidgets.QPushButton(self.widget)
+        self.btn_directorio.setObjectName("btn_directorio")
+        self.gridLayout_6.addWidget(self.btn_directorio, 1, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout_6, 0, 0, 1, 1)
         self.gridLayout_3 = QtWidgets.QGridLayout()
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -171,8 +171,9 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Fase de clasificación"))
         self.textosValorar_tab.setTabText(self.textosValorar_tab.indexOf(self.widget1), _translate("MainWindow", "Textos a Valorar"))
         self.btn_atras.setText(_translate("MainWindow", "Atrás"))
-        self.btn_directorio.setText(_translate("MainWindow", "Seleccionar carpeta con valoraciones"))
         self.textosValorar_text.setText(_translate("MainWindow", "Directorio:"))
+        self.btn_webscraper.setText(_translate("MainWindow", "WebScraper"))
+        self.btn_directorio.setText(_translate("MainWindow", "Seleccione Opiniones Recuperadas en Proyectos Anteriores"))
         self.btn_clasificar.setText(_translate("MainWindow", "CLASIFICAR"))
         self.btn_guardar.setText(_translate("MainWindow", "Guardar clasificación"))
         self.comboBox_idioma.setItemText(0, _translate("MainWindow", "spanish"))

@@ -9,6 +9,7 @@ import numpy as np
 from PyQt5.QtWidgets import QMessageBox
 from Vista.VistaVentanaClasificador import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
+import Controlador.ControladorVentanaLogin as ventanaLogin
 from os.path import isfile, join
 from os import listdir
 import os
@@ -74,7 +75,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         """
         Método encargado de volver al menu principal
         """
-        self.Open = ventanaPrincipal.MainWindow()
+        self.Open = ventanaLogin.MainWindow()
         self.Open.show()
         self.cerraVentana()
 

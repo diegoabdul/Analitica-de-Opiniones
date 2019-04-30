@@ -1,0 +1,1 @@
+3,0  Los bordes no ajustan a la superficie plana de la pantalla, por lo que los bordes se quedan "como levantados "

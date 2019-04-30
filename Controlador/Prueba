@@ -1,0 +1,162 @@
+from urllib.request import urlopen
+
+from bs4 import BeautifulSoup
+
+import re
+
+listaFinalBuenas = list()
+listaFinalMalas = list()
+
+listaNotas = list()
+listaOpiniones = list()
+listaFinal = list()
+
+
+def fusionarListas(listaNotas, listaOpiniones):
+
+  i=0
+
+  while i < len(listaNotas):
+    notai = float(listaNotas[i])
+
+    if notai > 35.0:
+      listaFinalBuenas.append(str(notai) + listaOpiniones[i])
+      i+=1
+
+    else:
+      listaFinalMalas.append(str(notai)+listaOpiniones[i])
+      i+=1
+
+  print("longuitud lista buenas: ", len(listaFinalBuenas))
+  print("longuitud lista malas: ", len(listaFinalMalas))
+  print("longuitud total: ", len(listaFinalBuenas) + len(listaFinalMalas))
+  print("i acaba valiendo: ", i)
+
+
+
+
+def esRestaurante(maximoPagina,urlFinal):
+  valor = 0
+  paginaActual = 0
+  maximoPRUEBA = 100000000
+  while paginaActual <= maximoPagina:
+
+    pagina =valor/10
+    #Abrimos la URL
+    urlFinal = urlFinal[:urlFinal.rfind('-or')+len('-or')]+str(valor)
+    print("abrimos la pagina " + str(pagina) + " , cuyo link es: " + urlFinal)
+    html = urlopen(urlFinal)
+    redireccion = html.geturl()
+    print("redireccion: " ,redireccion)
+
+    #if html != redireccion:
+     # print("YA NO HAY MAS OPINIONES, EL SCRAPPER HA SIDO REDIRECCIONADO A LA PAGINA 1...")
+    #else:
+    soup = BeautifulSoup(html.read(), "lxml");
+
+    #scrapeamos las notas de la pagina i
+    for idx, notas in enumerate(soup.select(".prw_reviews_review_resp .ui_bubble_rating")):
+
+      notasBuenas = re.sub('\/*<span class="ui_bubble_rating bubble_', ' ', str(notas))
+      notasFinales = re.sub('\/*"><\/span>', ' ', str(notasBuenas))
+      print("nota", idx, ":")
+      print(notasFinales)
+      listaNotas.append(notasFinales)
+
+    #scrapeamos las valoraciones de la pagina i
+
+    for idx, valoracion in enumerate(soup.select(".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
+
+      print("valoracion", idx, ":")
+      print(valoracion.text)
+      listaOpiniones.append(valoracion.text)
+
+    valor +=10
+    paginaActual +=1
+  fusionarListas(listaNotas,listaOpiniones)
+
+
+
+def esHotel(maximoPaginaHotel, urlFinal):
+  valor = 0
+  paginaActual = 0
+  while paginaActual <= maximoPaginaHotel:
+    # Abrimos la URL
+    urlFinal = urlFinal[:urlFinal.rfind('-or') + len('-or')] + str(valor)
+    print("abrimos la pagina " + str(paginaActual) + " , cuyo link es: " + urlFinal)
+    html = urlopen(urlFinal)
+    soup = BeautifulSoup(html.read(), "lxml");
+
+    for idx, notas in enumerate(soup.select(".prw_reviews_review_resp .ui_bubble_rating")):
+      notasBuenas = re.sub('\/*<span class="ui_bubble_rating bubble_', ' ', str(notas))
+      notasFinales = re.sub('\/*"><\/span>', ' ', str(notasBuenas))
+      print("nota", idx, ":")
+      print(notasFinales)
+      listaNotas.append(notasFinales)
+
+    for idx, valoracion in enumerate(soup.select(".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
+      print("valoracion", idx, ":")
+      print(valoracion.text)
+      listaOpiniones.append(valoracion.text)
+
+    valor += 5
+    paginaActual+=1
+
+
+  fusionarListas(listaNotas, listaOpiniones)
+
+
+#AQUI EMPIEZA EL PROGRAMA PIDIENDO UN INPUT
+valor = 0
+print("introduzca una url: ")
+entrada = input()
+url = re.sub('Reviews-..', '', entrada)
+urlFinal = url+"or"+str(valor)
+html = urlopen(urlFinal)
+soup = BeautifulSoup(html.read(), "lxml");
+opinionesMaximas = 10
+combobox = 75
+
+if urlFinal.find("Hotel") != -1 and opinionesMaximas!= 1:
+    print("ES UN HOTEL")
+
+    # Sacamos el numero de paginas que tiene la URL que ha introducido el usuario con el fin de establecer un limite de opiniones
+
+    num = soup.select(".hotels-hotel-review-layout-Section_tabbedTop--2clFd + div .hotels-community-pagination-card-PaginationCard_wrapper--79519 .pageNumbers .pageNum")
+    strPagina = str(num[-1])
+    notasBuenas = re.sub('\/...html">', '', strPagina)
+    maximoPaginaHotel = re.sub('<\/a*..*', '', notasBuenas)
+    maximoPaginas = float(maximoPaginaHotel)
+    print("maximo de paginas: ", maximoPaginas)
+
+    if opinionesMaximas ==0:
+      esHotel(maximoPaginaHotel,urlFinal)
+
+    else:
+      esHotel(maximoPaginas,urlFinal)
+
+else:
+
+  print("NO ES UN HOTEL")
+
+  # Sacamos el numero de paginas que tiene la URL que ha introducido el usuario con el fin de establecer un limite de opiniones
+
+  num = soup.select(".pageNumbers .pageNum.last.taLnk")
+  if len(num) !=0:
+    strPagina = str(num[0])
+    print(strPagina)
+    notasBuenas = re.sub('\/*<a class="pageNum last taLnk " data-offset="', ' ', strPagina)
+    print("notas buenas: " ,notasBuenas)
+    maximoPaginaRte = re.sub('" data-page*..*', '', notasBuenas)
+    print("maximo paginas: " ,maximoPaginaRte)
+    print(float(maximoPaginaRte))
+    maximoPaginaRteFloat = float(maximoPaginaRte)
+    maximo = maximoPaginaRteFloat/10
+
+    if opinionesMaximas == 0:
+      esRestaurante(maximo,urlFinal)
+
+    else:
+      esRestaurante(maximo, urlFinal)
+  else:
+    esRestaurante(combobox,urlFinal)

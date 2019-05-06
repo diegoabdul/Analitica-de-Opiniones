@@ -7,7 +7,7 @@ from itertools import groupby
 import boto3
 import numpy as np
 from PyQt5.QtWidgets import QMessageBox
-from Vista.VistaVentanaClasificadorUsuario import *
+from Vista.VistaVentanaClasificador import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
 import Controlador.ControladorVentanaLogin as ventanaLogin
 from os.path import isfile, join

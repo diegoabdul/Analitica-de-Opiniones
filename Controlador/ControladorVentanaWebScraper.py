@@ -9,6 +9,11 @@ import re
 import os
 from urllib.request import urlopen
 
+
+
+"""
+Conexion a la base de datos
+"""
 mydb = mysql.connector.connect(
   host="vtc.hopto.org",
   user="diego",
@@ -49,6 +54,9 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Nombrepro=''
         self.btn_guardar.clicked.connect(self.guardar)
 
+    """
+    Metodo para volver a la ventana anterior
+    """
     def volverAtras(self):
         if self.flagborrar==False:
             """
@@ -62,6 +70,9 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.about(self, "Ok", "Ya hemos empezado el proceso porfavor guarde o borre en el botón correspondiente para poder salir")
 
+    """
+    Metodos para que haga un contador de las positivas y negativas de cada pagina
+    """
     def mostrarBooking(self,nota,positivas,contadorpos):
         self.listWidget.addItem(nota +positivas)
         self.lineEdit_Buenas.setText(str(contadorpos))
@@ -79,11 +90,16 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidget.addItem(nota + negativas)
         self.lineEdit_Malas.setText(str(contadorneg))
 
+    """
+    Metodo donde se inicia el hilo en la pagina
+    """
     def iniciar(self):
         hilo2 = threading.Thread(target=self.web)
         hilo2.start()
 
-
+    """
+    Metodo guardar en la base de datos
+    """
     def guardar(self):
         if self.flagborrar == True:
             self.flagsalirbucle=True
@@ -190,6 +206,10 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.about(self, "Error", "No hay nada que guardar")
 
+    """
+    Metodo que avisa de cuanda acaba el proceso, una vez haya recogido todos los datos 
+    y ademas hace el insert a la base de datos para su guardado
+    """
     def web(self):
         self.OK.setText('Aquí te avisaremos cuando terminemos')
         self.listWidget.clear()
@@ -226,6 +246,13 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 idiomareal='es'
 
             URL = self.URL.text()
+            """      
+                           WebScrapper Booking, en donde se hace la limpieza de la URL para asi manejar la busqueda
+                           y poder filtrar todos los comentarios de la pagina, ademas de sus valoraciones, esta realizada
+                           la correspondiente paginacion y hacemos esta añadido el metodo de hilos, el cual permite a 
+                           tiempo real que se vayan mostrando uno a uno los comentarios en la lista de la ventana
+                           Tambien se hace la insercion a la base de datos de los comentarios y de las valoraciones
+                           """
             if URL.__contains__(self.comboBox_paginas.currentText()) and flagentrar==True:
                 if self.comboBox_paginas.currentText().__contains__('https://www.booking.com'):
                     mycursor = mydb.cursor()
@@ -303,7 +330,13 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
                     self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
 
-
+                """      
+                               WebScrapper Amazon, en donde se hace la limpieza de la URL para asi manejar la busqueda
+                               y poder filtrar todos los comentarios de la pagina, ademas de sus valoraciones, esta realizada
+                               la correspondiente paginacion y hacemos esta añadido el metodo de hilos, el cual permite a 
+                               tiempo real que se vayan mostrando uno a uno los comentarios en la lista de la ventana
+                               Tambien se hace la insercion a la base de datos de los comentarios y de las valoraciones
+                               """
                 if self.comboBox_paginas.currentText().__contains__('https://www.amazon.es/')and flagentrar == True:
 
                     listaopiniones = list()
@@ -437,7 +470,13 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         self.lineEdit_Total.setText(str(len(listavaloraciones) + len(listavaloracionesneg)))
 
                     self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
-
+                """      
+                               WebScrapper TripAdvisor, en donde se hace la limpieza de la URL para asi manejar la busqueda
+                               y poder filtrar todos los comentarios de la pagina, ademas de sus valoraciones, esta realizada
+                               la correspondiente paginacion y hacemos esta añadido el metodo de hilos, el cual permite a 
+                               tiempo real que se vayan mostrando uno a uno los comentarios en la lista de la ventana
+                               Tambien se hace la insercion a la base de datos de los comentarios y de las valoraciones
+                               """
                 if self.comboBox_paginas.currentText().__contains__('https://www.tripadvisor.es/') and flagentrar == True:
                     flagentrar = False
                     self.flagborrar = True

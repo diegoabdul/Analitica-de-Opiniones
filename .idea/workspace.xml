@@ -17,7 +17,29 @@
     <SUITE FILE_PATH="coverage/proyectoComputacion$modeloAlgoritmo.coverage" NAME="modeloAlgoritmo Coverage Results" MODIFIED="1547157041526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Modelo" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="8" column="9" lean-forward="true" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraperClasificador.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4269">
+              <caret line="298" column="55" selection-start-line="298" selection-start-column="55" selection-end-line="298" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -101,10 +123,10 @@
         <option value="$PROJECT_DIR$/Vista/VistaVentanaClasificadorSQL.py" />
         <option value="$PROJECT_DIR$/Vista/VistaVentanaClasificador.py" />
         <option value="$PROJECT_DIR$/Controlador/ControladorVentanaClasificadorSQL.py" />
-        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py" />
-        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraperClasificador.py" />
         <option value="$PROJECT_DIR$/amazon.py" />
         <option value="$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py" />
+        <option value="$PROJECT_DIR$/Controlador/ControladorVentanaWebScraperClasificador.py" />
       </list>
     </option>
   </component>
@@ -118,6 +140,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -134,7 +157,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Course" />
     </panes>
   </component>
@@ -207,6 +229,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TripAdvisor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -228,6 +251,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Vista/VistaVentanaEntrenamientoSQL.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -249,6 +273,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/amazon.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -270,6 +295,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tripadvisor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -314,16 +340,17 @@
       <workItem from="1547296787146" duration="1574000" />
       <workItem from="1547300676254" duration="1648000" />
       <workItem from="1552641164290" duration="1306000" />
+      <workItem from="1557213527527" duration="586000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4547000" />
+    <option name="totallyTimeSpent" value="5133000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1513" height="973" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24983074" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25340393" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -408,11 +435,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../w_pythoni3_p_2019.3.073/intelpython3/condainstall.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1020" />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../w_pythoni3_p_2019.3.073/intelpython3/condainstall.py" />
     <entry file="file://$PROJECT_DIR$/Vista/VistaWebScraper.py" />
     <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaLogin.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -436,13 +459,7 @@
     <entry file="file://$PROJECT_DIR$/proyecto.py" />
     <entry file="file://$PROJECT_DIR$/Controlador/Valoraciones/Buenas/Booking_1.txt" />
     <entry file="file://$USER_HOME$/Desktop/Diego/Algoritmia.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/botocore/auth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="356" selection-start-line="356" selection-end-line="356" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/botocore/auth.py" />
     <entry file="file://$PROJECT_DIR$/prueba.py" />
     <entry file="file://$PROJECT_DIR$/si.py" />
     <entry file="file://$PROJECT_DIR$/aws.py" />
@@ -560,43 +577,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Tripadvisor_5277.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/amazon.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="40" column="290" selection-start-line="40" selection-start-column="290" selection-end-line="40" selection-end-column="290" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/UNLABELED/Tripadvisor_5277.txt" />
+    <entry file="file://$PROJECT_DIR$/amazon.py" />
     <entry file="file://$PROJECT_DIR$/Vista/VistaVentanaWebScraper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="542">
           <caret line="181" selection-start-line="181" selection-end-line="181" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraperClasificador.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="344" column="40" selection-start-line="344" selection-start-column="40" selection-end-line="344" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="143" column="21" selection-start-line="143" selection-start-column="21" selection-end-line="143" selection-end-column="62" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -622,10 +608,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaClasificador.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
+        <state relative-caret-position="1309">
           <caret line="77" column="32" selection-start-line="77" selection-start-column="32" selection-end-line="77" selection-end-column="32" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="9" lean-forward="true" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controlador/ControladorVentanaWebScraperClasificador.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4269">
+          <caret line="298" column="55" selection-start-line="298" selection-start-column="55" selection-end-line="298" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -9,8 +9,8 @@ import mysql.connector
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self, *args, **kwargs):
-        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
+    def _init_(self, *args, **kwargs):
+        QtWidgets.QMainWindow._init_(self, *args, **kwargs)
         self.setupUi(self)
         self.btn_registrar.clicked.connect(self.prueba)
         self.btn_atras.clicked.connect(self.volverAtras)
@@ -30,17 +30,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def prueba(self):
 
-        nombre = self.lineEdit_nombre.text()
-        apellidos = self.lineEdit_apellidos.text()
-        usuario = self.lineEdit_usuario.text()
-        contrasena = self.lineEdit_contrasena.text()
-        rolcomodin = self.comboBox.currentText()
-        if rolcomodin=="Cliente":
-            rol=1
-        else:
-            rol=0
-
-
         mydb = mysql.connector.connect(
             host="vtc.hopto.org",
             user="diego",
@@ -49,14 +38,36 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         )
 
         mycursor = mydb.cursor()
-        sql = "INSERT INTO usuario (Nombre,Apellidos,Usuario,Clave,Rol) VALUES (%s,%s,%s,%s,%s)"
-        val = (nombre, apellidos,usuario,self.encriptarContrasena(contrasena),rol)
-        mycursor.execute(sql, val)
-        mydb.commit()
-        mycursor.close()
+        sql = ("SELECT * FROM usuario WHERE Usuario = %s ")
+        nombre = (self.lineEdit_nombre.text(),)
+        mycursor.execute(sql, nombre)
+        myresult = mycursor.fetchall()
 
-        QMessageBox.about(self, "Ok", "Se ha añadido el usuario correctamente")
-        self.volverAtras()
+        if (mycursor.rowcount != 0):
+            print("ese usuario ya esta cogido")
+            QMessageBox.about(self, "Aviso", "Ese usuario ya esta cogido")
+        else:
+
+            apellidos = self.lineEdit_apellidos.text()
+            usuario = self.lineEdit_usuario.text()
+            contrasena = self.lineEdit_contrasena.text()
+            rolcomodin = self.comboBox.currentText()
+            if rolcomodin=="Cliente":
+                rol=1
+            else:
+                rol=0
+
+
+
+            mycursor = mydb.cursor()
+            sql = "INSERT INTO usuario (Nombre,Apellidos,Usuario,Clave,Rol) VALUES (%s,%s,%s,%s,%s)"
+            val = (nombre, apellidos,usuario,self.encriptarContrasena(contrasena),rol)
+            mycursor.execute(sql, val)
+            mydb.commit()
+            mycursor.close()
+
+            QMessageBox.about(self, "Ok", "Se ha añadido el usuario correctamente")
+            self.volverAtras()
 
 
     def cerraVentana(self):
@@ -64,6 +75,3 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         Método encargado de cerrar la ventana actual
         """
         self.close()
-
-
-

@@ -8,7 +8,8 @@ import mysql.connector
 import re
 import os
 from urllib.request import urlopen
-
+#ABC
+from abc import ABC, abstractmethod
 
 
 """
@@ -20,6 +21,7 @@ mydb = mysql.connector.connect(
   passwd="Galicia96.",
     database="vtc"
 )
+
 
 
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -215,8 +217,9 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidget.clear()
         flagentrar = True
         if self.flagproyecto==True:
-            Nombrecomodin= QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
-            self.Nombrepro=str(Nombrecomodin[0])
+            #Nombrecomodin= QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
+            #self.Nombrepro=str(Nombrecomodin[0])
+            self.Nombrepro = "hola"
             ID_Usuario='0'
             mycursor = mydb.cursor()
             sql = "INSERT INTO proyecto (Nombre,ID_Usuario) VALUES (%s, %s)"

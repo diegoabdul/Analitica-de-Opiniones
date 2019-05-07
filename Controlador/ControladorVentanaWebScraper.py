@@ -8,26 +8,25 @@ import mysql.connector
 import re
 import os
 from urllib.request import urlopen
-#ABC
+# ABC
 from abc import ABC, abstractmethod
-
 
 """
 Conexion a la base de datos
 """
 mydb = mysql.connector.connect(
-  host="vtc.hopto.org",
-  user="diego",
-  passwd="Galicia96.",
+    host="vtc.hopto.org",
+    user="diego",
+    passwd="Galicia96.",
     database="vtc"
 )
 
 
-
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     flagDirectorio = False
-    Directorio=os.getcwd() + '/Valoraciones'
+    Directorio = os.getcwd() + '/Valoraciones'
     flagentrar = False
+
     def __init__(self):
         super(NewApp, self).__init__()
         self.setupUi(self)
@@ -47,20 +46,21 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.comboBox_2.addItem('675')
         self.comboBox_2.addItem('2700')
         self.comboBox_2.addItem('5400')
-        self.btn_obtener.clicked.connect(self.iniciar)
+        self.btn_obtener.clicked.connect(self.nombre)
         self.btn_atras.clicked.connect(self.volverAtras)
         self.borraropinion = list()
-        self.flagborrar=False
-        self.flagsalirbucle=False
-        self.flagproyecto=True
-        self.Nombrepro=''
+        self.flagborrar = False
+        self.flagsalirbucle = False
+        self.flagproyecto = True
+        self.Nombrepro = ''
         self.btn_guardar.clicked.connect(self.guardar)
 
     """
     Metodo para volver a la ventana anterior
     """
+
     def volverAtras(self):
-        if self.flagborrar==False:
+        if self.flagborrar == False:
             """
             Método encargado de volver al menu principal
             """
@@ -70,17 +70,18 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.close()
 
         else:
-            QMessageBox.about(self, "Ok", "Ya hemos empezado el proceso porfavor guarde o borre en el botón correspondiente para poder salir")
+            QMessageBox.about(self, "Ok",
+                              "Ya hemos empezado el proceso porfavor guarde o borre en el botón correspondiente para poder salir")
 
     """
     Metodos para que haga un contador de las positivas y negativas de cada pagina
     """
-    def mostrarBooking(self,nota,positivas,contadorpos):
-        self.listWidget.addItem(nota +positivas)
+
+    def mostrarBooking(self, nota, positivas, contadorpos):
+        self.listWidget.addItem(nota + positivas)
         self.lineEdit_Buenas.setText(str(contadorpos))
 
-
-    def mostrarBooking2(self,nota,negativas,contadorneg):
+    def mostrarBooking2(self, nota, negativas, contadorneg):
         self.listWidget.addItem(nota + negativas)
         self.lineEdit_Malas.setText(str(contadorneg))
 
@@ -95,6 +96,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     """
     Metodo donde se inicia el hilo en la pagina
     """
+
     def iniciar(self):
         hilo2 = threading.Thread(target=self.web)
         hilo2.start()
@@ -102,9 +104,10 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     """
     Metodo guardar en la base de datos
     """
+
     def guardar(self):
         if self.flagborrar == True:
-            self.flagsalirbucle=True
+            self.flagsalirbucle = True
             msgBox = QMessageBox()
             msgBox.setInformativeText("¿Desea guardar los cambios?")
             msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard)
@@ -122,8 +125,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         print("Creation of the directory %s failed" % path)
                     else:
                         print("Successfully created the directory %s" % path)
-
-
 
                 mycursor = mydb.cursor()
                 mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE ID_Proyecto=%s", (self.ID_Proyecto,))
@@ -147,16 +148,17 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             print("Successfully created the directory %s" % path)
                     mycursor.close()
                     mycursor = mydb.cursor()
-                    mycursor.execute("SELECT Nota,Texto FROM opinion WHERE ID_PaginaWeb=%s and Label='Buenas'", (ID[0],))
+                    mycursor.execute("SELECT Nota,Texto FROM opinion WHERE ID_PaginaWeb=%s and Label='Buenas'",
+                                     (ID[0],))
                     myresult = mycursor.fetchall()
-                    i=0
+                    i = 0
                     for x in myresult:
-                        i+=1
+                        i += 1
                         Nota = x[0]
                         Texto = x[1]
                         NotaGuardar = str(Nota)
-                        f = open(path + "/"+NombreArchivo+"_"+str(i)+".txt", "w+")
-                        f.write(NotaGuardar+' '+Texto)
+                        f = open(path + "/" + NombreArchivo + "_" + str(i) + ".txt", "w+")
+                        f.write(NotaGuardar + ' ' + Texto)
                         f.close()
                     mycursor.close()
                     path = os.getcwd() + '/Valoraciones/Malas'
@@ -187,11 +189,11 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         f.close()
                     mycursor.close()
 
-                NewApp.flagDirectorio=True
-                self.flagborrar=False
+                NewApp.flagDirectorio = True
+                self.flagborrar = False
                 QMessageBox.about(self, "Ok", "Se ha guardado correctamente")
                 self.volverAtras()
-                self.flagproyecto=True
+                self.flagproyecto = True
 
             if (ret == QMessageBox.Discard):
                 self.listWidget.clear()
@@ -204,7 +206,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 QMessageBox.about(self, "Ok", "Eliminado Correctamente")
                 self.flagborrar = False
                 self.volverAtras()
-            self.flagborrar=False
+            self.flagborrar = False
         else:
             QMessageBox.about(self, "Error", "No hay nada que guardar")
 
@@ -212,15 +214,18 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     Metodo que avisa de cuanda acaba el proceso, una vez haya recogido todos los datos 
     y ademas hace el insert a la base de datos para su guardado
     """
+
+    def nombre(self):
+        Nombrecomodin = QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
+        self.Nombrepro = str(Nombrecomodin[0])
+        self.iniciar()
+
     def web(self):
-        self.OK.setText('Aquí te avisaremos cuando terminemos')
+        self.OK.setText('Cargando opiniones...')
         self.listWidget.clear()
         flagentrar = True
-        if self.flagproyecto==True:
-            #Nombrecomodin= QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
-            #self.Nombrepro=str(Nombrecomodin[0])
-            self.Nombrepro = "hola"
-            ID_Usuario='0'
+        if self.flagproyecto == True:
+            ID_Usuario = '0'
             mycursor = mydb.cursor()
             sql = "INSERT INTO proyecto (Nombre,ID_Usuario) VALUES (%s, %s)"
             val = (self.Nombrepro, ID_Usuario)
@@ -234,19 +239,17 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             for x in myresult:
                 proyecto = x[0]
             mycursor.close()
-            self.ID_Proyecto=proyecto
-            self.flagproyecto=False
+            self.ID_Proyecto = proyecto
+            self.flagproyecto = False
 
+        while (self.flagsalirbucle == False):
 
-        while(self.flagsalirbucle==False):
-
-
-            idioma=self.comboBox.currentText()
-            idiomareal=None
-            if idioma =='Ingles':
-                idiomareal='en'
+            idioma = self.comboBox.currentText()
+            idiomareal = None
+            if idioma == 'Ingles':
+                idiomareal = 'en'
             else:
-                idiomareal='es'
+                idiomareal = 'es'
 
             URL = self.URL.text()
             """      
@@ -256,7 +259,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                            tiempo real que se vayan mostrando uno a uno los comentarios en la lista de la ventana
                            Tambien se hace la insercion a la base de datos de los comentarios y de las valoraciones
                            """
-            if URL.__contains__(self.comboBox_paginas.currentText()) and flagentrar==True:
+            if URL.__contains__(self.comboBox_paginas.currentText()) and flagentrar == True:
                 if self.comboBox_paginas.currentText().__contains__('https://www.booking.com'):
                     mycursor = mydb.cursor()
                     i = 1
@@ -264,7 +267,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     ID_PaginaWeb = 0
                     ID_Opinion = 0
                     sql = "INSERT INTO paginaweb (URL, Nombre,ID_Proyecto) VALUES (%s, %s,%s)"
-                    val = (URL, Nombre,self.ID_Proyecto)
+                    val = (URL, Nombre, self.ID_Proyecto)
                     mycursor.execute(sql, val)
                     mydb.commit()
                     mycursor.close()
@@ -275,43 +278,45 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     for x in myresult:
                         ID_PaginaWeb = x[0]
                     mycursor.close()
-                    self.borrar=ID_PaginaWeb
+                    self.borrar = ID_PaginaWeb
 
-                    comodin=URL.replace('hotel','reviews',1)
+                    comodin = URL.replace('hotel', 'reviews', 1)
                     PAGINA = comodin[:34] + '/hotel' + comodin[34:]
-                    #print(PAGINA)
-                    contador=0
-                    maximo=self.comboBox_2.currentText()
+                    # print(PAGINA)
+                    contador = 0
+                    maximo = self.comboBox_2.currentText()
                     maximo_int = int(maximo)
                     maximo_pagina = (maximo_int / 75)
                     contadorneg = 0
                     contadorpos = 1
-                    final=0
+                    final = 0
                     self.flagborrar = True
                     flagentrar = False
-                    while (i<=maximo_pagina):
+                    while (i <= maximo_pagina):
 
-                        fijo = 'customer_type=total&hp_nav=0&lang='+idiomareal+'-us&order=featuredreviews&page=' + str(i) + '&r_lang='+idiomareal+'&rows=75&soz=1&lang_click=top;cdl=es;lang_changed=1'
-                        req = requests.get(PAGINA,fijo)
+                        fijo = 'customer_type=total&hp_nav=0&lang=' + idiomareal + '-us&order=featuredreviews&page=' + str(
+                            i) + '&r_lang=' + idiomareal + '&rows=75&soz=1&lang_click=top;cdl=es;lang_changed=1'
+                        req = requests.get(PAGINA, fijo)
                         soup = BeautifulSoup(req.content, "lxml")
-                        #print(fijo)
+                        # print(fijo)
                         i += 1
 
                         for lab in soup.find_all(class_="review_item_review"):
 
-                            self.lineEdit_Total.setText(str(contadorpos+contadorneg))
+                            self.lineEdit_Total.setText(str(contadorpos + contadorneg))
                             nota = lab.findAll(class_="review-score-badge", text=True)[0].text
                             for lab2 in lab.find_all(class_="review_pos"):
                                 positivas = lab2.findAll(itemprop="reviewBody", text=True)[0].text
                                 Nombre = 'Buenas'
                                 contadorpos += 1
-                                hilo1 = threading.Thread(target=self.mostrarBooking,args=(nota,positivas,contadorpos))
+                                hilo1 = threading.Thread(target=self.mostrarBooking,
+                                                         args=(nota, positivas, contadorpos))
                                 hilo1.start()
-                                #print(nota + positivas)
+                                # print(nota + positivas)
 
                                 mycursor = mydb.cursor()
                                 sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
-                                val = (ID_PaginaWeb, nota, positivas,Nombre)
+                                val = (ID_PaginaWeb, nota, positivas, Nombre)
                                 mycursor.execute(sql, val)
                                 mydb.commit()
                                 mycursor.close()
@@ -319,14 +324,15 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             for lab3 in lab.find_all(class_="review_neg"):
                                 negativas = lab3.findAll(itemprop="reviewBody", text=True)[0].text
                                 contadorneg += 1
-                                hilo3 = threading.Thread(target=self.mostrarBooking2, args=(nota, negativas,contadorneg))
+                                hilo3 = threading.Thread(target=self.mostrarBooking2,
+                                                         args=(nota, negativas, contadorneg))
                                 hilo3.start()
                                 # print(nota + negativas)
                                 Nombre2 = 'Malas'
 
                                 mycursor = mydb.cursor()
                                 sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
-                                val = (ID_PaginaWeb, nota, negativas,Nombre2)
+                                val = (ID_PaginaWeb, nota, negativas, Nombre2)
                                 mycursor.execute(sql, val)
                                 mydb.commit()
                                 mycursor.close()
@@ -340,7 +346,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                                tiempo real que se vayan mostrando uno a uno los comentarios en la lista de la ventana
                                Tambien se hace la insercion a la base de datos de los comentarios y de las valoraciones
                                """
-                if self.comboBox_paginas.currentText().__contains__('https://www.amazon.es/')and flagentrar == True:
+                if self.comboBox_paginas.currentText().__contains__('https://www.amazon.es/') and flagentrar == True:
 
                     listaopiniones = list()
                     listavaloraciones = list()
@@ -351,7 +357,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
                     headers = requests.utils.default_headers()
                     headers.update(
-                        {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0', })
+                        {
+                            'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0', })
                     contador = 0
                     maximo = self.comboBox_2.currentText()
                     maximo_int = int(maximo)
@@ -360,14 +367,14 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     contadorneg = 0
                     contadorpos = 0
                     flag = True
-                    maximo_pagina2 = maximo_pagina *3
+                    maximo_pagina2 = maximo_pagina * 3
 
                     mycursor = mydb.cursor()
                     Nombre = 'Amazon'
                     ID_PaginaWeb = 0
                     ID_Opinion = 0
                     sql = "INSERT INTO paginaweb (URL, Nombre,ID_Proyecto) VALUES (%s, %s,%s)"
-                    val = (URL, Nombre,self.ID_Proyecto)
+                    val = (URL, Nombre, self.ID_Proyecto)
                     mycursor.execute(sql, val)
                     mydb.commit()
                     mycursor.close()
@@ -380,7 +387,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     mycursor.close()
                     self.borrar = ID_PaginaWeb
                     self.flagborrar = True
-                    flagentrar=False
+                    flagentrar = False
                     while (flag == True and i <= maximo_pagina2):
                         pagina = URL
                         comodin = pagina.replace('dp', 'product-reviews', 1)
@@ -392,8 +399,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             i)
                         PAGINA_POSITIVAS = url + fijopositivas
                         PAGINA_NEGATIVAS = url + fijonegativas
-                        #print(PAGINA_POSITIVAS)
-                        #print(PAGINA_NEGATIVAS)
+                        # print(PAGINA_POSITIVAS)
+                        # print(PAGINA_NEGATIVAS)
                         i += 1
                         req = requests.get(PAGINA_POSITIVAS, headers)
                         soup = BeautifulSoup(req.content, "lxml")
@@ -402,7 +409,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             '\/*<span class="a-size-medium totalReviewCount" data-hook="total-review-count">', '',
                             str(parar))
                         final1 = re.sub('\/*<\/span>', '', parar2)
-                        pararfinal=int(final1)
+                        pararfinal = int(final1)
                         comprobacion = len(listavaloraciones) + len(listavaloracionesneg)
                         if comprobacion > int(pararfinal):
                             flag = False
@@ -420,10 +427,11 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             listavaloraciones.append(valoracionFinal)
 
                         for final in range(len(listaopiniones)):
-                            #print(listavaloraciones[final])
-                            #print(listaopiniones[final])
+                            # print(listavaloraciones[final])
+                            # print(listaopiniones[final])
                             hilo1 = threading.Thread(target=self.mostrarAmazon,
-                                                     args=(listavaloraciones[final], listaopiniones[final], len(listavaloraciones)))
+                                                     args=(listavaloraciones[final], listaopiniones[final],
+                                                           len(listavaloraciones)))
                             hilo1.start()
                             Nombre3 = 'Buenas'
                             if final == None:
@@ -459,7 +467,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
                             hilo3 = threading.Thread(target=self.mostrarAmazon2,
                                                      args=(
-                                                     listavaloracionesneg[final], listaopinionesneg[final], len(listavaloracionesneg)))
+                                                         listavaloracionesneg[final], listaopinionesneg[final],
+                                                         len(listavaloracionesneg)))
                             hilo3.start()
                             Nombre4 = 'Malas'
                             if final == None:
@@ -480,7 +489,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                                tiempo real que se vayan mostrando uno a uno los comentarios en la lista de la ventana
                                Tambien se hace la insercion a la base de datos de los comentarios y de las valoraciones
                                """
-                if self.comboBox_paginas.currentText().__contains__('https://www.tripadvisor.es/') and flagentrar == True:
+                if self.comboBox_paginas.currentText().__contains__(
+                        'https://www.tripadvisor.es/') and flagentrar == True:
                     flagentrar = False
                     self.flagborrar = True
                     listaFinalBuenas = list()
@@ -511,16 +521,11 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         mycursor.close()
                         self.borrar = ID_PaginaWeb
 
-
-
-
-
-
                         while i < len(listaNotas):
                             notai = float(listaNotas[i])
 
                             if notai > 35.0:
-                                Label='Buenas'
+                                Label = 'Buenas'
                                 mycursor = mydb.cursor()
                                 sql = "INSERT INTO opinion (ID_PaginaWeb,Nota, Texto,Label) VALUES (%s,%s,%s,%s)"
                                 val = (ID_PaginaWeb, str(notai), listaOpiniones[i], Label)
@@ -547,19 +552,19 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
                     def esRestaurante(maximoPagina, valor, urlFinal):
                         valor = 0
-                        contadortrip=0
+                        contadortrip = 0
                         while valor <= maximoPagina:
 
                             pagina = valor / 10
                             # Abrimos la URL
                             urlFinal = urlFinal[:urlFinal.rfind('-or') + len('-or')] + str(valor)
-                            #print("abrimos la pagina " + str(pagina) + " , cuyo link es: " + urlFinal)
+                            # print("abrimos la pagina " + str(pagina) + " , cuyo link es: " + urlFinal)
                             html = urlopen(urlFinal)
                             soup = BeautifulSoup(html.read(), "lxml");
 
                             # scrapeamos las notas de la pagina i
                             for idx, notas in enumerate(soup.select(".prw_reviews_review_resp .ui_bubble_rating")):
-                                contadortrip+=1
+                                contadortrip += 1
                                 self.lineEdit_Total.setText(str(contadortrip))
                                 notasBuenas = re.sub('\/*<span class="ui_bubble_rating bubble_', ' ', str(notas))
                                 notasFinales = re.sub('\/*"><\/span>', ' ', str(notasBuenas))
@@ -567,10 +572,12 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
                             # scrapeamos las valoraciones de la pagina i
 
-                            for idx, valoracion in enumerate(soup.select(".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
+                            for idx, valoracion in enumerate(soup.select(
+                                    ".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
                                 # print("valoracion", idx, ":")
                                 # print(valoracion.text)
-                                hilo1 = threading.Thread(target=self.mostrarBooking, args=(notasFinales, valoracion.text, 'No valido para esta URL'))
+                                hilo1 = threading.Thread(target=self.mostrarBooking, args=(
+                                notasFinales, valoracion.text, 'No valido para esta URL'))
                                 self.lineEdit_Malas.setText('No valido para esta URL')
                                 hilo1.start()
                                 listaOpiniones.append(valoracion.text)
@@ -580,7 +587,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
                     def esHotel(maximoPaginaHotel, valor):
                         while valor <= maximoPaginaHotel:
-                            #print("abrimos la pagina " + str(valor) + " , cuyo link es: " + urlFinal)
+                            # print("abrimos la pagina " + str(valor) + " , cuyo link es: " + urlFinal)
                             html = urlopen(urlFinal)
                             soup = BeautifulSoup(html.read(), "lxml");
 
@@ -592,10 +599,10 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                                 listaNotas.append(notasFinales)
 
                             for idx, valoracion in enumerate(
-                                    soup.select(".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
+                                    soup.select(
+                                        ".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
                                 # print("valoracion", idx, ":")
                                 # print(valoracion.text)
-
 
                                 listaOpiniones.append(valoracion.text)
 
@@ -629,15 +636,14 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         num = soup.select(".pageNumbers .pageNum.last.taLnk")
                         strPagina = str(num[0])
                         notasBuenas = re.sub('\/*<a class="pageNum last taLnk " data-offset="', ' ', strPagina)
-                        #maximoPaginaRte = re.sub('" data-page*..*', '', notasBuenas)
-                        maximoPaginaRte=self.comboBox_2.currentText()
-                        #print(float(maximoPaginaRte))
+                        # maximoPaginaRte = re.sub('" data-page*..*', '', notasBuenas)
+                        maximoPaginaRte = self.comboBox_2.currentText()
+                        # print(float(maximoPaginaRte))
                         maximoPaginaRteFloat = float(maximoPaginaRte)
 
                         esRestaurante(maximoPaginaRteFloat, valor, urlFinal)
                     print('esperando a diego')
 
-
-            #else:
-             #   print('URL incorrecta')
+            # else:
+            #   print('URL incorrecta')
 

@@ -46,7 +46,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.comboBox_2.addItem('675')
         self.comboBox_2.addItem('2700')
         self.comboBox_2.addItem('5400')
-        self.btn_obtener.clicked.connect(self.iniciar)
+        self.btn_obtener.clicked.connect(self.nombre)
+
         self.btn_atras.clicked.connect(self.volverAtras)
         self.borraropinion = list()
         self.flagborrar=False
@@ -180,17 +181,20 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             QMessageBox.about(self, "Error", "No hay nada que guardar")
 
+    def nombre(self):
+        Nombrecomodin= QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
+        self.Nombrepro=str(Nombrecomodin[0])
+        self.iniciar()
+
     """
        Metodo que avisa de cuanda acaba el proceso, una vez haya recogido todos los datos 
        y ademas hace el insert a la base de datos para su guardado
        """
     def web(self):
-        self.OK.setText('Aquí te avisaremos cuando terminemos')
+        self.OK.setText('Cargando opiniones...')
         self.listWidget.clear()
         flagentrar = True
         if self.flagproyecto==True:
-            Nombrecomodin = QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
-            self.Nombrepro = str(Nombrecomodin[0])
             ID_Usuario='0'
             mycursor = mydb.cursor()
             sql = "INSERT INTO proyectoclasificacion (Nombre,ID_Usuario) VALUES (%s, %s)"
@@ -228,6 +232,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             Tambien se hace la insercion a la base de datos de los comentarios y de las valoraciones
                             """
                 if self.comboBox_paginas.currentText().__contains__('https://www.booking.com'):
+                    self.OK.setText('Cargando opiniones...')
                     mycursor = mydb.cursor()
                     i = 1
                     Nombre = 'Booking'

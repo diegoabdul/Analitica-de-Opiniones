@@ -47,7 +47,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.comboBox_2.addItem('2700')
         self.comboBox_2.addItem('5400')
         self.btn_obtener.clicked.connect(self.nombre)
-
         self.btn_atras.clicked.connect(self.volverAtras)
         self.borraropinion = list()
         self.flagborrar=False
@@ -182,9 +181,92 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             QMessageBox.about(self, "Error", "No hay nada que guardar")
 
     def nombre(self):
-        Nombrecomodin= QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
-        self.Nombrepro=str(Nombrecomodin[0])
+        if self.flagproyecto == True:
+            Nombrecomodin= QInputDialog.getText(self, 'Guardar', 'Introduzca el nombre del proyecto a generar:')
+            self.Nombrepro=str(Nombrecomodin[0])
         self.iniciar()
+
+    def fusionarListas(self, listaNotas, listaOpiniones, URL):
+
+        i = 0
+        x = 0
+        mycursor = mydb.cursor()
+        i = 1
+        Nombre = 'Tripadvisor'
+        ID_PaginaWeb = 0
+        sql = "INSERT INTO paginaweb (URL, Nombre,ID_ProyectoClasificacion) VALUES (%s, %s,%s)"
+        val = (URL, Nombre, self.ID_Proyecto)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        mycursor.close()
+
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE URL=%s", (URL,))
+        myresult = mycursor.fetchall()
+        for x in myresult:
+            ID_PaginaWeb = x[0]
+        mycursor.close()
+        self.borrar = ID_PaginaWeb
+
+        while i < len(listaNotas):
+            notai = float(listaNotas[i])
+
+            if notai > 35.0:
+                Label = 'Buenas'
+                mycursor = mydb.cursor()
+                sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
+                val = (ID_PaginaWeb, str(notai), listaOpiniones[i])
+                mycursor.execute(sql, val)
+                mydb.commit()
+                mycursor.close()
+                i += 1
+
+            else:
+                Labelm = 'Malas'
+                mycursor = mydb.cursor()
+                sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
+                val = (ID_PaginaWeb, str(notai), listaOpiniones[i])
+                mycursor.execute(sql, val)
+                mydb.commit()
+                mycursor.close()
+                i += 1
+
+        self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
+
+    def esRestaurante(self, maximoPagina, valor, urlFinal):
+        valor = 0
+        contadortrip = 0
+        while valor <= maximoPagina:
+
+            pagina = valor / 10
+            # Abrimos la URL
+            urlFinal = urlFinal[:urlFinal.rfind('-or') + len('-or')] + str(valor)
+            # print("abrimos la pagina " + str(pagina) + " , cuyo link es: " + urlFinal)
+            html = urlopen(urlFinal)
+            soup = BeautifulSoup(html.read(), "lxml");
+
+            # scrapeamos las notas de la pagina i
+            for idx, notas in enumerate(soup.select(".prw_reviews_review_resp .ui_bubble_rating")):
+                contadortrip += 1
+                self.lineEdit_Total.setText(str(contadortrip))
+                notasBuenas = re.sub('\/*<span class="ui_bubble_rating bubble_', ' ', str(notas))
+                notasFinales = re.sub('\/*"><\/span>', ' ', str(notasBuenas))
+                self.listaNotas.append(notasFinales)
+
+            # scrapeamos las valoraciones de la pagina i
+
+            for idx, valoracion in enumerate(soup.select(
+                    ".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
+                # print("valoracion", idx, ":")
+                # print(valoracion.text)
+                hilo1 = threading.Thread(target=self.mostrarBooking, args=(
+                    notasFinales, valoracion.text, 'No valido para esta URL'))
+                self.lineEdit_Malas.setText('No valido para esta URL')
+                hilo1.start()
+                self.listaOpiniones.append(valoracion.text)
+
+            valor += 10
+        self.fusionarListas(self.listaNotas, self.listaOpiniones, urlFinal)
 
     """
        Metodo que avisa de cuanda acaba el proceso, una vez haya recogido todos los datos 
@@ -202,7 +284,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             mycursor.execute(sql, val)
             mydb.commit()
             mycursor.close()
-
+            self.flagproyecto = False
             mycursor = mydb.cursor()
             mycursor.execute("SELECT ID_ProyectoClasificacion FROM proyectoclasificacion WHERE Nombre=%s", (self.Nombrepro,))
             myresult = mycursor.fetchall()
@@ -210,7 +292,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 proyecto = x[0]
             mycursor.close()
             self.ID_Proyecto=proyecto
-            self.flagproyecto=False
+
 
         while(self.flagsalirbucle==False):
 
@@ -455,161 +537,30 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 if self.comboBox_paginas.currentText().__contains__('https://www.tripadvisor.es/') and flagentrar == True:
                     flagentrar = False
                     self.flagborrar = True
-                    listaFinalBuenas = list()
-                    listaFinalMalas = list()
-                    listaNotas = list()
-                    listaOpiniones = list()
-                    listaFinal = list()
-
-                    def fusionarListas(listaNotas, listaOpiniones):
-
-                        i = 0
-                        x = 0
-                        mycursor = mydb.cursor()
-                        i = 1
-                        Nombre = 'Tripadvisor'
-                        ID_PaginaWeb = 0
-                        sql = "INSERT INTO paginaweb (URL, Nombre,ID_ProyectoClasificacion) VALUES (%s, %s,%s)"
-                        val = (URL, Nombre, self.ID_Proyecto)
-                        mycursor.execute(sql, val)
-                        mydb.commit()
-                        mycursor.close()
-
-                        mycursor = mydb.cursor()
-                        mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE URL=%s", (URL,))
-                        myresult = mycursor.fetchall()
-                        for x in myresult:
-                            ID_PaginaWeb = x[0]
-                        mycursor.close()
-                        self.borrar = ID_PaginaWeb
-
-
-
-
-
-                        while i < len(listaNotas):
-                            notai = float(listaNotas[i])
-
-                            if notai > 35.0:
-                                Label='Buenas'
-                                mycursor = mydb.cursor()
-                                sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
-                                val = (ID_PaginaWeb, str(notai), listaOpiniones[i])
-                                mycursor.execute(sql, val)
-                                mydb.commit()
-                                mycursor.close()
-                                i += 1
-
-                            else:
-                                Labelm = 'Malas'
-                                mycursor = mydb.cursor()
-                                sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
-                                val = (ID_PaginaWeb, str(notai), listaOpiniones[i])
-                                mycursor.execute(sql, val)
-                                mydb.commit()
-                                mycursor.close()
-                                i += 1
-
-                        self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
-                        # print("longuitud lista buenas: ", len(listaFinalBuenas))
-                        # print("longuitud lista malas: ", len(listaFinalMalas))
-                        # print("longuitud total: ", len(listaFinalBuenas) + len(listaFinalMalas))
-                        # print("i acaba valiendo: ", i)
-
-                    def esRestaurante(maximoPagina, valor, urlFinal):
-                        valor = 0
-                        contadortrip=0
-                        while valor <= maximoPagina:
-
-                            pagina = valor / 10
-                            # Abrimos la URL
-                            urlFinal = urlFinal[:urlFinal.rfind('-or') + len('-or')] + str(valor)
-                            #print("abrimos la pagina " + str(pagina) + " , cuyo link es: " + urlFinal)
-                            html = urlopen(urlFinal)
-                            soup = BeautifulSoup(html.read(), "lxml");
-
-                            # scrapeamos las notas de la pagina i
-                            for idx, notas in enumerate(soup.select(".prw_reviews_review_resp .ui_bubble_rating")):
-                                contadortrip+=1
-                                notasBuenas = re.sub('\/*<span class="ui_bubble_rating bubble_', ' ', str(notas))
-                                notasFinales = re.sub('\/*"><\/span>', ' ', str(notasBuenas))
-                                listaNotas.append(notasFinales)
-
-                            # scrapeamos las valoraciones de la pagina i
-
-                            for idx, valoracion in enumerate(soup.select(".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
-                                # print("valoracion", idx, ":")
-                                # print(valoracion.text)
-                                hilo1 = threading.Thread(target=self.mostrarBooking, args=(notasFinales, valoracion.text, 'No valido para esta URL'))
-                                self.lineEdit_Malas.setText('No valido para esta URL')
-                                self.lineEdit_Total.setText(str(contadortrip))
-                                hilo1.start()
-                                listaOpiniones.append(valoracion.text)
-
-                            valor += 10
-                        fusionarListas(listaNotas, listaOpiniones)
-
-                    def esHotel(maximoPaginaHotel, valor):
-                        while valor <= maximoPaginaHotel:
-                            #print("abrimos la pagina " + str(valor) + " , cuyo link es: " + urlFinal)
-                            html = urlopen(urlFinal)
-                            soup = BeautifulSoup(html.read(), "lxml");
-
-                            for idx, notas in enumerate(soup.select(".prw_reviews_review_resp .ui_bubble_rating")):
-                                notasBuenas = re.sub('\/*<span class="ui_bubble_rating bubble_', ' ', str(notas))
-                                notasFinales = re.sub('\/*"><\/span>', ' ', str(notasBuenas))
-                                print("nota", idx, ":")
-                                print(notasFinales)
-                                listaNotas.append(notasFinales)
-
-                            for idx, valoracion in enumerate(
-                                    soup.select(".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
-                                # print("valoracion", idx, ":")
-                                # print(valoracion.text)
-
-
-                                listaOpiniones.append(valoracion.text)
-
-                            valor += 5
-
-                        fusionarListas(listaNotas, listaOpiniones)
-
+                    self.listaFinalBuenas = list()
+                    self.listaFinalMalas = list()
+                    self.listaNotas = list()
+                    self.listaOpiniones = list()
+                    self.listaFinal = list()
                     valor = 0
-                    entrada = URL
-                    url = re.sub('Reviews-*..*', '', entrada)
+                    url = re.sub('Reviews-*..*', '', URL)
                     urlFinal = url + "or" + str(valor)
                     html = urlopen(urlFinal)
-                    soup = BeautifulSoup(html.read(), "lxml");
+                    soup = BeautifulSoup(html.read(), "lxml")
 
-                    if urlFinal.find("Hotel") == True:
-                        print("ES UN HOTEL")
+                    # Sacamos el numero de paginas que tiene la URL que ha introducido el usuario con el fin de establecer un limite de opiniones
 
-                        # Sacamos el numero de paginas que tiene la URL que ha introducido el usuario con el fin de establecer un limite de opiniones
+                    num = soup.select(".pageNumbers .pageNum.last.taLnk")
+                    strPagina = str(num[0])
+                    notasBuenas = re.sub('\/*<a class="pageNum last taLnk " data-offset="', ' ', strPagina)
+                    # maximoPaginaRte = re.sub('" data-page*..*', '', notasBuenas)
+                    maximoPaginaRte = self.comboBox_2.currentText()
+                    # print(float(maximoPaginaRte))
+                    maximoPaginaRteFloat = float(maximoPaginaRte)
 
-                        num = soup.select(".pageNumbers .pageNum.last.taLnk")
-                        strPagina = str(num[0])
-                        notasBuenas = re.sub('\/*<a class="pageNum last taLnk " data-offset="', ' ', strPagina)
-                        maximoPaginaHotel = re.sub('" data-page*..*', '', notasBuenas)
-                        print(float(maximoPaginaHotel))
-
-                        esHotel(maximoPaginaHotel, valor, urlFinal)
-
-                    else:
-
-                        # Sacamos el numero de paginas que tiene la URL que ha introducido el usuario con el fin de establecer un limite de opiniones
-
-                        num = soup.select(".pageNumbers .pageNum.last.taLnk")
-                        strPagina = str(num[0])
-                        notasBuenas = re.sub('\/*<a class="pageNum last taLnk " data-offset="', ' ', strPagina)
-                        #maximoPaginaRte = re.sub('" data-page*..*', '', notasBuenas)
-                        maximoPaginaRte=self.comboBox_2.currentText()
-                        #print(float(maximoPaginaRte))
-                        maximoPaginaRteFloat = float(maximoPaginaRte)
-
-                        esRestaurante(maximoPaginaRteFloat, valor, urlFinal)
-                    print('esperando a diego')
+                    self.esRestaurante(maximoPaginaRteFloat, valor, urlFinal)
 
 
-            #else:
-             #   print('URL incorrecta')
+
+
 

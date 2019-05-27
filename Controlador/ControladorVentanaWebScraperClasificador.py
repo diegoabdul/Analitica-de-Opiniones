@@ -1,27 +1,14 @@
-import gc
-
 from PyQt5.QtWidgets import QMessageBox, QInputDialog
 from Vista.VistaVentanaWebScraperClasificador import *
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
+import Controlador.GestorBBDD as BBDD
 import threading
 import requests
 from bs4 import BeautifulSoup
-import mysql.connector
 import re
 import os
 import time
 from urllib.request import urlopen
-
-"""
-Conexion a la base de datos
-"""
-mydb = mysql.connector.connect(
-  host="vtc.hopto.org",
-  user="diego",
-  passwd="Galicia96.",
-    database="vtc"
-)
-
 
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     flagDirectorio = False
@@ -132,21 +119,14 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     else:
                         print("Successfully created the directory %s" % path)
 
-                mycursor = mydb.cursor()
-                mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE ID_ProyectoClasificacion=%s", (self.ID_Proyecto,))
-                myresult = mycursor.fetchall()
-                mycursor.close()
+                myresult=BBDD.seleccionarIDPaginaWeb(self.ID_Proyecto)
+
                 for ID in myresult:
                     print(ID[0])
-                    mycursor = mydb.cursor()
-                    mycursor.execute("SELECT Nombre FROM paginaweb WHERE ID_PaginaWeb=%s", (ID[0],))
-                    myresult = mycursor.fetchall()
+                    myresult=BBDD.seleccionarNombre(ID)
                     for x in myresult:
                         NombreArchivo = x[0]
-                    mycursor.close()
-                    mycursor = mydb.cursor()
-                    mycursor.execute("SELECT Nota,Texto,ID_Unlabeled FROM unlabeled WHERE ID_PaginaWeb=%s", (ID[0],))
-                    myresult = mycursor.fetchall()
+                    myresult=BBDD.seleccionarNotayTexto(ID)
                     i=0
                     for x in myresult:
                         i+=1
@@ -157,8 +137,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         f = open(path + "/"+NombreArchivo+"_"+str(ID_Unlabeled)+".txt", "w+")
                         f.write(NotaGuardar+' '+Texto)
                         f.close()
-                    mycursor.close()
-
                 NewApp.flagDirectorio=True
                 self.flagborrar=False
                 QMessageBox.about(self, "Ok", "Se ha guardado correctamente")
@@ -168,11 +146,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             if (ret == QMessageBox.Discard):
                 self.listWidget.clear()
                 QMessageBox.about(self, "Ok", "Espere estamos borrando toda la información")
-
-                mycursor = mydb.cursor()
-                mycursor.execute("DELETE FROM proyectoclasificacion WHERE ID_ProyectoClasificacion=%s", (self.ID_Proyecto,))
-                mydb.commit()
-                mycursor.close()
+                BBDD.borrarArchivosWebScrapper()
                 QMessageBox.about(self, "Ok", "Eliminado Correctamente")
                 self.flagborrar = False
                 self.volverAtras()
@@ -190,22 +164,16 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         i = 0
         x = 0
-        mycursor = mydb.cursor()
         i = 1
         Nombre = 'Tripadvisor'
         ID_PaginaWeb = 0
-        sql = "INSERT INTO paginaweb (URL, Nombre,ID_ProyectoClasificacion) VALUES (%s, %s,%s)"
         val = (URL, Nombre, self.ID_Proyecto)
-        mycursor.execute(sql, val)
-        mydb.commit()
-        mycursor.close()
+        BBDD.insertarPaginaWeb(val)
 
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE URL=%s", (URL,))
-        myresult = mycursor.fetchall()
+        myresult = BBDD.seleccionarPaginaWeb(URL)
         for x in myresult:
             ID_PaginaWeb = x[0]
-        mycursor.close()
+
         self.borrar = ID_PaginaWeb
 
         while i < len(listaNotas):
@@ -213,22 +181,14 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
             if notai > 35.0:
                 Label = 'Buenas'
-                mycursor = mydb.cursor()
-                sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
                 val = (ID_PaginaWeb, str(notai), listaOpiniones[i])
-                mycursor.execute(sql, val)
-                mydb.commit()
-                mycursor.close()
+                BBDD.insertarBuenasyMalas(val)
                 i += 1
 
             else:
                 Labelm = 'Malas'
-                mycursor = mydb.cursor()
-                sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
                 val = (ID_PaginaWeb, str(notai), listaOpiniones[i])
-                mycursor.execute(sql, val)
-                mydb.commit()
-                mycursor.close()
+                BBDD.insertarBuenasyMalas(val)
                 i += 1
 
         self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
@@ -241,7 +201,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             pagina = valor / 10
             # Abrimos la URL
             urlFinal = urlFinal[:urlFinal.rfind('-or') + len('-or')] + str(valor)
-            # print("abrimos la pagina " + str(pagina) + " , cuyo link es: " + urlFinal)
             html = urlopen(urlFinal)
             soup = BeautifulSoup(html.read(), "lxml");
 
@@ -257,8 +216,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
             for idx, valoracion in enumerate(soup.select(
                     ".ui_column.is-9 > .prw_reviews_text_summary_hsx .entry .partial_entry")):
-                # print("valoracion", idx, ":")
-                # print(valoracion.text)
                 hilo1 = threading.Thread(target=self.mostrarBooking, args=(
                     notasFinales, valoracion.text, 'No valido para esta URL'))
                 self.lineEdit_Malas.setText('No valido para esta URL')
@@ -278,19 +235,16 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         flagentrar = True
         if self.flagproyecto==True:
             ID_Usuario='0'
-            mycursor = mydb.cursor()
-            sql = "INSERT INTO proyectoclasificacion (Nombre,ID_Usuario) VALUES (%s, %s)"
+
             val = (self.Nombrepro, ID_Usuario)
-            mycursor.execute(sql, val)
-            mydb.commit()
-            mycursor.close()
+            BBDD.insertarproyectoClasificacion(val)
             self.flagproyecto = False
-            mycursor = mydb.cursor()
-            mycursor.execute("SELECT ID_ProyectoClasificacion FROM proyectoclasificacion WHERE Nombre=%s", (self.Nombrepro,))
-            myresult = mycursor.fetchall()
+
+            myresult=BBDD.seleccionarID_ProyectoClasificacion(self.Nombrepro)
+
             for x in myresult:
                 proyecto = x[0]
-            mycursor.close()
+
             self.ID_Proyecto=proyecto
 
 
@@ -315,28 +269,24 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             """
                 if self.comboBox_paginas.currentText().__contains__('https://www.booking.com'):
                     self.OK.setText('Cargando opiniones...')
-                    mycursor = mydb.cursor()
+
                     i = 1
                     Nombre = 'Booking'
                     ID_PaginaWeb = 0
                     ID_Opinion = 0
-                    sql = "INSERT INTO paginaweb (URL, Nombre,ID_ProyectoClasificacion) VALUES (%s, %s,%s)"
-                    val = (URL, Nombre,self.ID_Proyecto)
-                    mycursor.execute(sql, val)
-                    mydb.commit()
-                    mycursor.close()
 
-                    mycursor = mydb.cursor()
-                    mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE URL=%s", (URL,))
-                    myresult = mycursor.fetchall()
+                    val = (URL, Nombre,self.ID_Proyecto)
+                    BBDD.insertarPaginaWeb(val)
+
+                    myresult=BBDD.seleccionarPaginaWeb(URL)
+
                     for x in myresult:
                         ID_PaginaWeb = x[0]
-                    mycursor.close()
+
                     self.borrar=ID_PaginaWeb
 
                     comodin=URL.replace('hotel','reviews',1)
                     PAGINA = comodin[:34] + '/hotel' + comodin[34:]
-                    #print(PAGINA)
                     contador=0
                     maximo=self.comboBox_2.currentText()
                     maximo_int = int(maximo)
@@ -350,7 +300,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                         fijo = 'customer_type=total&hp_nav=0&lang='+idiomareal+'-us&order=featuredreviews&page=' + str(i) + '&r_lang='+idiomareal+'&rows=75&soz=1&lang_click=top;cdl=es;lang_changed=1'
                         req = requests.get(PAGINA,fijo)
                         soup = BeautifulSoup(req.content, "lxml")
-                        #print(fijo)
                         i += 1
 
                         for lab in soup.find_all(class_="review_item_review"):
@@ -363,29 +312,21 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                                 contadorpos += 1
                                 hilo1 = threading.Thread(target=self.mostrarBooking,args=(nota,positivas,contadorpos))
                                 hilo1.start()
-                                #print(nota + positivas)
 
-                                mycursor = mydb.cursor()
-                                sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
                                 val = (ID_PaginaWeb, nota, positivas)
-                                mycursor.execute(sql, val)
-                                mydb.commit()
-                                mycursor.close()
+                                BBDD.insertarBuenasyMalas(val)
 
                             for lab3 in lab.find_all(class_="review_neg"):
                                 negativas = lab3.findAll(itemprop="reviewBody", text=True)[0].text
                                 contadorneg += 1
                                 hilo3 = threading.Thread(target=self.mostrarBooking2, args=(nota, negativas,contadorneg))
                                 hilo3.start()
-                                # print(nota + negativas)
                                 Nombre2 = 'Malas'
 
-                                mycursor = mydb.cursor()
-                                sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
+
+
                                 val = (ID_PaginaWeb, nota, negativas)
-                                mycursor.execute(sql, val)
-                                mydb.commit()
-                                mycursor.close()
+                                BBDD.insertarBuenasyMalas(val)
 
                     self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
                 """      
@@ -417,22 +358,17 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     flag = True
                     maximo_pagina2 = maximo_pagina *3
 
-                    mycursor = mydb.cursor()
+
                     Nombre = 'Amazon'
                     ID_PaginaWeb = 0
                     ID_Opinion = 0
-                    sql = "INSERT INTO paginaweb (URL, Nombre,ID_ProyectoClasificacion) VALUES (%s, %s,%s)"
-                    val = (URL, Nombre,self.ID_Proyecto)
-                    mycursor.execute(sql, val)
-                    mydb.commit()
-                    mycursor.close()
 
-                    mycursor = mydb.cursor()
-                    mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE URL=%s", (URL,))
-                    myresult = mycursor.fetchall()
+                    val = (URL, Nombre,self.ID_Proyecto)
+                    BBDD.insertarPaginaWeb(val)
+
+                    myresult=BBDD.seleccionarPaginaWeb(URL)
                     for x in myresult:
                         ID_PaginaWeb = x[0]
-                    mycursor.close()
                     self.borrar = ID_PaginaWeb
                     self.flagborrar = True
                     flagentrar=False
@@ -482,12 +418,9 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             Nombre3 = 'Buenas'
                             if final == None:
                                 flag = False
-                            mycursor = mydb.cursor()
-                            sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
+
                             val = (ID_PaginaWeb, listavaloraciones[final], listaopiniones[final])
-                            mycursor.execute(sql, val)
-                            mydb.commit()
-                            mycursor.close()
+                            BBDD.insertarBuenasyMalas(val)
 
                         req2 = requests.get(PAGINA_NEGATIVAS, headers)
                         soup2 = BeautifulSoup(req2.content, "lxml")
@@ -508,8 +441,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             listavaloracionesneg.append(valoracionFinal)
 
                         for final in range(len(listaopinionesneg)):
-                            # print(listavaloraciones[final])
-                            # print(listaopiniones[final])
                             hilo3 = threading.Thread(target=self.mostrarAmazon2,
                                                      args=(
                                                      listavaloracionesneg[final], listaopinionesneg[final], len(listavaloracionesneg)))
@@ -517,12 +448,10 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             Nombre4 = 'Malas'
                             if final == None:
                                 flag = False
-                            mycursor = mydb.cursor()
-                            sql = "INSERT INTO unlabeled (ID_PaginaWeb,Nota, Texto) VALUES (%s,%s,%s)"
+
                             val = (ID_PaginaWeb, listavaloracionesneg[final], listaopinionesneg[final])
-                            mycursor.execute(sql, val)
-                            mydb.commit()
-                            mycursor.close()
+                            BBDD.insertarBuenasyMalas(val)
+
                         self.lineEdit_Total.setText(str(len(listavaloraciones) + len(listavaloracionesneg)))
 
                     self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
@@ -559,8 +488,3 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                     maximoPaginaRteFloat = float(maximoPaginaRte)
 
                     self.esRestaurante(maximoPaginaRteFloat, valor, urlFinal)
-
-
-
-
-

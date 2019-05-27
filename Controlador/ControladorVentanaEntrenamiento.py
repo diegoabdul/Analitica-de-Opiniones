@@ -12,17 +12,10 @@ import Controlador.ControladorVentanaWebScraper as ventanaWebScraper
 import Controlador.ControladorVentanaEntrenamientoSQL as ventanaSQL
 from os.path import isfile, join
 from os import listdir
-import mysql.connector
+import Controlador.GestorBBDD as BBDD
 import boto3
 import os
 
-
-mydb = mysql.connector.connect(
-  host="vtc.hopto.org",
-  user="diego",
-  passwd="Galicia96.",
-    database="vtc"
-)
 
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -184,13 +177,8 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 s3.upload_file(Key3, bucketName, outPutname3)
 
 
-                mycursor = mydb.cursor()
-                sql = "INSERT INTO modelo (Nombre) VALUES (%s)"
                 val = (nombreArchivo,)
-                mycursor.execute(sql, val)
-                mydb.commit()
-                mycursor.close()
-
+                BBDD.insertarNombreModelo(val)
 
                 self.dialogo("Modelo Guardado", "El entrenamiento se ha guradado satisfactoriamente.", QMessageBox.Information)
                 rmtree(os.getcwd() + '/Valoraciones')
@@ -241,8 +229,6 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.idioma_text.setEnabled(True)
             self.comboBox_idioma.setEnabled(True)
 
-
-
     def dialogo(self, titulo, texto, icono):
         """
         Método que se encarga de crear un dialogo de tipo informativo
@@ -255,4 +241,3 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         mensaje.setWindowTitle(titulo)
         mensaje.setText(texto)
         mensaje.exec_()
-

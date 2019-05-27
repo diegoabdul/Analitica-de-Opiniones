@@ -1,16 +1,8 @@
 from Vista.VistaVentanaEntrenamientoSQL import *
-import Controlador.ControladorVentanaClasificadorSQL as ventanaEntrenamientoSQL
 import Controlador.ControladorVentanaClasificador as ventanaEntrenamiento
 from PyQt5.QtWidgets import QMessageBox
-import mysql.connector
+import Controlador.GestorBBDD as BBDD
 import os
-
-mydb = mysql.connector.connect(
-  host="vtc.hopto.org",
-  user="diego",
-  passwd="Galicia96.",
-    database="vtc"
-)
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     flagDirectorio = False
@@ -19,13 +11,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.btn_atras.clicked.connect(self.volverAtras)
         self.btn_obtener.clicked.connect(self.obtener)
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT Nombre FROM proyectoclasificacion")
-        myresult = mycursor.fetchall()
+        myresult=BBDD.nombreProyecto2()
         for x in myresult:
             URL = x[0]
             self.comboBox.addItem(URL[0:50])
-        mycursor.close()
+
 
     def volverAtras(self):
         self.Open = ventanaEntrenamiento.NewApp()
@@ -34,12 +24,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def obtener(self):
 
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT ID_ProyectoClasificacion FROM proyectoclasificacion WHERE Nombre=%s", (self.comboBox.currentText(),))
-        myresult = mycursor.fetchall()
+        myresult=BBDD.clasificadorSQL(self.comboBox)
         for x in myresult:
             self.ID_Proyecto = x[0]
-        mycursor.close()
 
         path = os.getcwd() + '/UNLABELED'
         if not os.path.isdir(path):
@@ -51,21 +38,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 print("Successfully created the directory %s" % path)
 
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT ID_PaginaWeb FROM paginaweb WHERE ID_ProyectoClasificacion=%s", (self.ID_Proyecto,))
-        myresult = mycursor.fetchall()
-        mycursor.close()
+        myresult=BBDD.seleccionarIDPaginaWeb(self.ID_Proyecto)
         for ID in myresult:
             print(ID[0])
-            mycursor = mydb.cursor()
-            mycursor.execute("SELECT Nombre FROM paginaweb WHERE ID_PaginaWeb=%s", (ID[0],))
-            myresult = mycursor.fetchall()
+
+            myresult = BBDD.seleccionarNombre(ID)
             for x in myresult:
                 NombreArchivo = x[0]
-            mycursor.close()
-            mycursor = mydb.cursor()
-            mycursor.execute("SELECT Nota,Texto,ID_Unlabeled FROM unlabeled WHERE ID_PaginaWeb=%s", (ID[0],))
-            myresult = mycursor.fetchall()
+
+            myresult=BBDD.seleccionarNotayTexto(ID)
             i = 0
             for x in myresult:
                 i += 1
@@ -76,7 +57,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 f = open(path + "/" + NombreArchivo + "_" + str(ID_Unlabeled) + ".txt", "w+")
                 f.write(NotaGuardar + ' ' + Texto)
                 f.close()
-            mycursor.close()
         self.flagborrar = False
         MainWindow.flagDirectorio = True
         QMessageBox.about(self, "Ok", "Se ha guardado correctamente")

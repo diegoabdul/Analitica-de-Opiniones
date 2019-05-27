@@ -19,7 +19,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Open.show()
         self.cerraVentana()
 
-
     def clasificar(self):
         """
         Método encargado de ejecutar la ventana clasificar

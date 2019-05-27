@@ -1,12 +1,8 @@
 import hashlib
-
-from PyQt5.QtGui import QKeySequence
+import Controlador.GestorBBDD as BBDD
 from PyQt5.QtWidgets import QShortcut, QMessageBox
-
 from Vista.VistaVentanaRegistro import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
-import mysql.connector
-
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
@@ -40,30 +36,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             rol=0
 
-
-        mydb = mysql.connector.connect(
-            host="vtc.hopto.org",
-            user="diego",
-            passwd="Galicia96.",
-            database="vtc"
-        )
-
-        mycursor = mydb.cursor()
-        sql = "INSERT INTO usuario (Nombre,Apellidos,Usuario,Clave,Rol) VALUES (%s,%s,%s,%s,%s)"
         val = (nombre, apellidos,usuario,self.encriptarContrasena(contrasena),rol)
-        mycursor.execute(sql, val)
-        mydb.commit()
-        mycursor.close()
+        BBDD.agregarUsuario(val)
 
         QMessageBox.about(self, "Ok", "Se ha añadido el usuario correctamente")
         self.volverAtras()
-
 
     def cerraVentana(self):
         """
         Método encargado de cerrar la ventana actual
         """
         self.close()
-
-
-

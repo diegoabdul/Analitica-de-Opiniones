@@ -8,7 +8,7 @@ import boto3
 import numpy as np
 from PyQt5.QtWidgets import QMessageBox
 from Vista.VistaVentanaClasificador import *
-import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
+import Controlador.GestorBBDD as BBDD
 import Controlador.ControladorVentanaLogin as ventanaLogin
 from os.path import isfile, join
 from os import listdir
@@ -21,13 +21,6 @@ from py_translator import Translator
 import mysql.connector
 import Controlador.ControladorVentanaWebScraperClasificador as ventanaWebScraper
 import Controlador.ControladorVentanaClasificadorSQL as ventanaSQL
-
-mydb = mysql.connector.connect(
-  host="vtc.hopto.org",
-  user="diego",
-  passwd="Galicia96.",
-    database="vtc"
-)
 
 class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -117,13 +110,11 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
         al combobox
         """
         listamodelo=list()
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT Nombre FROM modelo")
-        myresult = mycursor.fetchall()
+        myresult=BBDD.nombreModelo()
         for x in myresult:
             NombreModelo = x[0]
             listamodelo.append(NombreModelo)
-        mycursor.close()
+
         self.comboBox_modelo.addItems(listamodelo)
 
     def AnalisisSentimiento(self):
@@ -138,11 +129,10 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.imprimir = (f"TEXTO:{texto}\n ANALISIS DE SENTIMIENTO: {self.prueba}")
             self.listaAnalisis.append(self.imprimir)
             f.close()
-            mycursor = mydb.cursor()
-            sql = "UPDATE unlabeled SET Sentimiento = %s WHERE ID_Unlabeled = %s"
+
             val = (str(self.prueba), str(s[0]))
-            mycursor.execute(sql, val)
-            mydb.commit()
+            BBDD.updateAnalisisSentimiento(val)
+
         self.flag = True
         self.btn_guardar.setEnabled(True)
         self.flagHilo=True
@@ -247,11 +237,10 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                             encontrado = True
                             patron = re.compile('(?<=_)[^\]]+(?=.txt)')
                             s = patron.findall(str(self.listaDeFicheros[indice]))
-                            mycursor = mydb.cursor()
-                            sql = "UPDATE unlabeled SET LabelAsignado = %s WHERE ID_Unlabeled = %s"
+
                             val = (str(self.titulosGrafico[contador]),str(s[0]))
-                            mycursor.execute(sql,val)
-                            mydb.commit()
+                            BBDD.updateLabel(val)
+
                         contador += 1
 
                 self.dialogo("Guardado con éxito", "Se guardo con éxito las clasificaciones", QMessageBox.Information)

@@ -2,7 +2,7 @@ import hashlib
 
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut, QMessageBox
-
+import Controlador.GestorBBDD as BBDD
 from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
@@ -30,16 +30,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             passwd="Galicia96.",
             database="vtc"
         )
-
         mycursor = mydb.cursor()
-
         sql = ("SELECT * FROM usuario WHERE Usuario = %s ")
         usuarioBBDD = (self.textoUsuario.text(), )
         mycursor.execute(sql, usuarioBBDD)
-
-
-
-
         myresult = mycursor.fetchall()
 
         if (mycursor.rowcount == 0):
@@ -68,18 +62,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.labelIncorrectos.setText("usuario y contraseña incorrectos")
 
-
-
-
     def cerraVentana(self):
         """
         Método encargado de cerrar la ventana actual
         """
         self.close()
-
-
-
-
-
-
-

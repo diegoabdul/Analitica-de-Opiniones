@@ -177,7 +177,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Fase de clasificación"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "WebScraper"))
         self.btn_atras.setText(_translate("MainWindow", "Atrás"))
         self.btn_obtener.setText(_translate("MainWindow", "OBTENER"))
         self.btn_guardar.setText(_translate("MainWindow", "Guardar"))

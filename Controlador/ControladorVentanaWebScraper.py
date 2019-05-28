@@ -220,7 +220,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 BBDD.insertarBuenasyMalas2(val)
                 i += 1
 
-        self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
+        self.OK.setText('¡Hemos terminado!. Puedes introducir otro URL/Guardar')
 
 
     def esRestaurante(self,maximoPagina, valor, urlFinal):
@@ -353,7 +353,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                                 BBDD.insertarBuenasyMalas2(val)
 
 
-                    self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
+                    self.OK.setText('¡Hemos terminado!')
 
                 """      
                                WebScrapper Amazon, en donde se hace la limpieza de la URL para asi manejar la busqueda

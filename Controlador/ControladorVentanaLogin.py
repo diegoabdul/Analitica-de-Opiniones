@@ -2,11 +2,10 @@ import hashlib
 
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut, QMessageBox
-import Controlador.GestorBBDD as BBDD
+import Utilidades.gestionBBDD as BBDD
 from Vista.VistaVentanaLogin import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
-import mysql.connector
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -24,19 +23,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def entrar(self):
 
-        mydb = mysql.connector.connect(
-            host="vtc.hopto.org",
-            user="diego",
-            passwd="Galicia96.",
-            database="vtc"
-        )
-        mycursor = mydb.cursor()
-        sql = ("SELECT * FROM usuario WHERE Usuario = %s ")
-        usuarioBBDD = (self.textoUsuario.text(), )
-        mycursor.execute(sql, usuarioBBDD)
-        myresult = mycursor.fetchall()
 
-        if (mycursor.rowcount == 0):
+
+        usuarioBBDD = (self.textoUsuario.text(), )
+        myresult = BBDD.seleccionarUsuario(usuarioBBDD)
+
+
+        if (len(myresult) == 0):
 
             self.labelIncorrectos.setText("usuario y contraseña incorrectos")
         else:

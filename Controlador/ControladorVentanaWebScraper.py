@@ -3,7 +3,7 @@ from Vista.VistaVentanaWebScraper import *
 import Controlador.ControladorVentanaEntrenamiento as ventanaEntrenamiento
 import threading
 import requests
-import Controlador.GestorBBDD as BBDD
+import Utilidades.gestionBBDD as BBDD
 from bs4 import BeautifulSoup
 import re
 import os

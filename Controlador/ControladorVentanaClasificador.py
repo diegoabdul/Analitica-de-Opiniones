@@ -8,7 +8,7 @@ import boto3
 import numpy as np
 from PyQt5.QtWidgets import QMessageBox
 from Vista.VistaVentanaClasificador import *
-import Controlador.GestorBBDD as BBDD
+import Utilidades.gestionBBDD as BBDD
 import Controlador.ControladorVentanaLogin as ventanaLogin
 from os.path import isfile, join
 from os import listdir
@@ -18,7 +18,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from shutil import copyfile, rmtree
 from textblob import TextBlob
 from py_translator import Translator
-import mysql.connector
 import Controlador.ControladorVentanaWebScraperClasificador as ventanaWebScraper
 import Controlador.ControladorVentanaClasificadorSQL as ventanaSQL
 

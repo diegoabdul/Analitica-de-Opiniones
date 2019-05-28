@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox, QInputDialog
 from Vista.VistaVentanaWebScraperClasificador import *
 import Controlador.ControladorVentanaClasificador as ventanaClasificador
-import Controlador.GestorBBDD as BBDD
+import Utilidades.gestionBBDD as BBDD
 import threading
 import requests
 from bs4 import BeautifulSoup

@@ -3,7 +3,7 @@ import Controlador.ControladorVentanaEntrenamientoSQL as ventanaEntrenamientoSQL
 import Controlador.ControladorVentanaEntrenamiento as ventanaEntrenamiento
 from PyQt5.QtWidgets import QMessageBox
 import mysql.connector
-import Controlador.GestorBBDD as BBDD
+import Utilidades.gestionBBDD as BBDD
 import os
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):

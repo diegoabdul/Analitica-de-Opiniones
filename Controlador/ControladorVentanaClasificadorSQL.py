@@ -1,7 +1,7 @@
 from Vista.VistaVentanaEntrenamientoSQL import *
 import Controlador.ControladorVentanaClasificador as ventanaEntrenamiento
 from PyQt5.QtWidgets import QMessageBox
-import Controlador.GestorBBDD as BBDD
+import Utilidades.gestionBBDD as BBDD
 import os
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):

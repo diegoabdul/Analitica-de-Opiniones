@@ -1,5 +1,5 @@
 import hashlib
-import Controlador.GestorBBDD as BBDD
+import Utilidades.gestionBBDD as BBDD
 from PyQt5.QtWidgets import QShortcut, QMessageBox
 from Vista.VistaVentanaRegistro import *
 import Controlador.ControladorVentanaPrincipal as ventanaPrincipal

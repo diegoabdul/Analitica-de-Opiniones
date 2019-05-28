@@ -12,7 +12,7 @@ import Controlador.ControladorVentanaWebScraper as ventanaWebScraper
 import Controlador.ControladorVentanaEntrenamientoSQL as ventanaSQL
 from os.path import isfile, join
 from os import listdir
-import Controlador.GestorBBDD as BBDD
+import Utilidades.gestionBBDD as BBDD
 import boto3
 import os
 

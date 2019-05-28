@@ -220,7 +220,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 BBDD.insertarBuenasyMalas2(val)
                 i += 1
 
-        self.OK.setText('¡Hemos terminado!. Puedes introducir otro URL/Guardar')
+        self.OK.setText('¡Hemos terminado!')
 
 
     def esRestaurante(self,maximoPagina, valor, urlFinal):
@@ -482,7 +482,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
                         self.lineEdit_Total.setText(str(len(listavaloraciones) + len(listavaloracionesneg)))
 
-                    self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
+                    self.OK.setText('¡Hemos terminado!')
                 """      
                                WebScrapper TripAdvisor, en donde se hace la limpieza de la URL para asi manejar la busqueda
                                y poder filtrar todos los comentarios de la pagina, ademas de sus valoraciones, esta realizada

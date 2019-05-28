@@ -328,7 +328,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
                                 val = (ID_PaginaWeb, nota, negativas)
                                 BBDD.insertarBuenasyMalas(val)
 
-                    self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
+                    self.OK.setText('¡Hemos terminado!')
                 """      
                             WebScrapper Amazon, en donde se hace la limpieza de la URL para asi manejar la busqueda
                             y poder filtrar todos los comentarios de la pagina, ademas de sus valoraciones, esta realizada
@@ -454,7 +454,7 @@ class NewApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
                         self.lineEdit_Total.setText(str(len(listavaloraciones) + len(listavaloracionesneg)))
 
-                    self.OK.setText('¡Hemos terminado!, puedes introducir otro URL/Guardar')
+                    self.OK.setText('¡Hemos terminado!')
 
                 """      
                             WebScrapper TripAdvisor, en donde se hace la limpieza de la URL para asi manejar la busqueda

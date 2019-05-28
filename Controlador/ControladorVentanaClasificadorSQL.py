@@ -41,11 +41,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         myresult=BBDD.seleccionarIDPaginaWeb(self.ID_Proyecto)
         for ID in myresult:
             print(ID[0])
-
             myresult = BBDD.seleccionarNombre(ID)
             for x in myresult:
                 NombreArchivo = x[0]
-
             myresult=BBDD.seleccionarNotayTexto(ID)
             i = 0
             for x in myresult:

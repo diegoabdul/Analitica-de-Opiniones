@@ -32,8 +32,8 @@ def seleccionarNombre(ID):
 def seleccionarNotayTexto(ID):
     mycursor = mydb.cursor()
     mycursor.execute("SELECT Nota,Texto,ID_Unlabeled FROM unlabeled WHERE ID_PaginaWeb=%s", (ID[0],))
-    mycursor.close()
     myresult = mycursor.fetchall()
+    mycursor.close()
     return myresult
 
 def borrarArchivosWebScrapper(ID_Proyecto):
@@ -122,12 +122,14 @@ def seleccionarIDPaginaWeb2(ID_Proyecto):
     myresult = mycursor.fetchall()
     mycursor.close()
     return myresult
+
 def seleccionarNombre2(ID):
     mycursor = mydb.cursor()
     mycursor.execute("SELECT Nombre FROM paginaweb WHERE ID_PaginaWeb=%s", (ID[0],))
     myresult = mycursor.fetchall()
     mycursor.close()
     return myresult
+
 def seleccionarNotayTextoBuenas2(ID):
     mycursor = mydb.cursor()
     mycursor.execute("SELECT Nota,Texto FROM opinion WHERE ID_PaginaWeb=%s and Label='Buenas'",
@@ -135,12 +137,14 @@ def seleccionarNotayTextoBuenas2(ID):
     myresult = mycursor.fetchall()
     mycursor.close()
     return myresult
+
 def seleccionarNotayTextoMalas2(ID):
     mycursor = mydb.cursor()
     mycursor.execute("SELECT Nota,Texto FROM opinion WHERE ID_PaginaWeb=%s and Label='Malas'", (ID[0],))
     myresult = mycursor.fetchall()
     mycursor.close()
     return myresult
+
 def borrarArchivosWebScrapper2(ID_Proyecto):
     mycursor = mydb.cursor()
     mycursor.execute("DELETE FROM proyecto WHERE ID_Proyecto=%s", (ID_Proyecto,))
@@ -173,6 +177,7 @@ def entrenamientoSQL(comboBox):
     mycursor.execute("SELECT ID_Proyecto FROM proyecto WHERE Nombre=%s", (comboBox.currentText(),))
     myresult = mycursor.fetchall()
     return myresult
+
 def nombreProyecto():
     mycursor = mydb.cursor()
     mycursor.execute("SELECT Nombre FROM proyecto")
@@ -199,6 +204,7 @@ def nombreProyecto2():
     myresult = mycursor.fetchall()
     mycursor.close()
     return myresult
+
 def clasificadorSQL(comboBox):
     mycursor = mydb.cursor()
     mycursor.execute("SELECT ID_ProyectoClasificacion FROM proyectoclasificacion WHERE Nombre=%s",
@@ -215,11 +221,13 @@ def nombreModelo():
     myresult = mycursor.fetchall()
     mycursor.close()
     return myresult
+
 def updateAnalisisSentimiento(val):
     mycursor = mydb.cursor()
     sql = "UPDATE unlabeled SET Sentimiento = %s WHERE ID_Unlabeled = %s"
     mycursor.execute(sql, val)
     mydb.commit()
+
 def updateLabel(val):
     mycursor = mydb.cursor()
     sql = "UPDATE unlabeled SET LabelAsignado = %s WHERE ID_Unlabeled = %s"
